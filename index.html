@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV Pro AI · Modern Assistant</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..700&display=swap" rel="stylesheet" />
+    <style>
+        /* ===== RESET & ROOT ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #10a37f;
+            --primary-dark: #0d8b6d;
+            --primary-light: #1a7f64;
+            --bg-main: #f7f7f8;
+            --bg-sidebar: #f0f0f0;
+            --bg-chat: #ffffff;
+            --bg-user: #f7f7f8;
+            --bg-ai: #ffffff;
+            --text-dark: #1a1a2e;
+            --text-light: #2d2d44;
+            --text-muted: #6b7280;
+            --border-color: #e5e5e5;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-main);
+            color: var(--text-dark);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            transition: background var(--transition), color var(--transition);
+        }
+
+        /* ===== DARK THEME ===== */
+        body.dark {
+            --bg-main: #1a1a2e;
+            --bg-sidebar: #16213e;
+            --bg-chat: #1e293b;
+            --bg-user: #1a1a2e;
+            --bg-ai: #1e293b;
+            --text-dark: #e2e8f0;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-sidebar);
+            padding: 20px 16px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            overflow-y: auto;
+            flex-shrink: 0;
+            transition: background var(--transition), border var(--transition);
+        }
+
+        .sidebar-brand {
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 10px 14px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(16, 163, 127, 0.12);
+            border-radius: var(--radius-sm);
+            color: var(--text-dark);
+            transition: background var(--transition);
+        }
+
+        .sidebar-brand i {
+            color: var(--primary);
+            font-size: 1.4rem;
+        }
+
+        .sidebar-brand span {
+            background: linear-gradient(135deg, var(--primary), #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .new-chat-btn {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: transparent;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .new-chat-btn:hover {
+            background: rgba(16, 163, 127, 0.08);
+            border-color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .chat-history {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 12px;
+        }
+
+        .chat-item {
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 2px;
+        }
+
+        .chat-item:hover {
+            background: rgba(16, 163, 127, 0.06);
+            color: var(--text-dark);
+        }
+
+        .chat-item.active {
+            background: rgba(16, 163, 127, 0.12);
+            color: var(--text-dark);
+        }
+
+        .chat-item i {
+            width: 18px;
+            font-size: 0.85rem;
+            color: var(--primary);
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 14px;
+        }
+
+        .model-selector {
+            padding: 8px 14px;
+            background: var(--bg-main);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            width: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 4px;
+        }
+
+        .model-selector:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .model-selector option {
+            background: var(--bg-chat);
+            color: var(--text-dark);
+        }
+
+        /* ===== MAIN AREA ===== */
+        .main-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: var(--bg-main);
+            transition: background var(--transition);
+        }
+
+        /* ===== HEADER ===== */
+        .chat-header {
+            padding: 16px 28px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-chat);
+            flex-shrink: 0;
+            transition: background var(--transition), border var(--transition);
+        }
+
+        .chat-header h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-header .status {
+            font-size: 0.7rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .chat-header .status .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.4;
+                transform: scale(0.8);
+            }
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .header-actions button {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            padding: 8px 10px;
+            border-radius: var(--radius-sm);
+        }
+
+        .header-actions button:hover {
+            color: var(--text-dark);
+            background: rgba(16, 163, 127, 0.08);
+        }
+
+        /* ===== MESSAGES ===== */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+        }
+
+        .messages-container::-webkit-scrollbar {
+            width: 5px;
+        }
+        .messages-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .messages-container::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 20px;
+        }
+
+        .message {
+            display: flex;
+            gap: 16px;
+            padding: 16px 28px;
+            animation: fadeSlide 0.4s ease;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.ai {
+            background: var(--bg-ai);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .message.user {
+            background: var(--bg-user);
+        }
+
+        .message-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .message.ai .message-avatar {
+            background: var(--primary);
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: #7c3aed;
+            color: white;
+        }
+
+        .message-content {
+            flex: 1;
+            font-size: 0.92rem;
+            line-height: 1.7;
+            color: var(--text-dark);
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .message-content strong {
+            color: var(--primary);
+        }
+
+        .message-content .suggestion-box {
+            background: rgba(16, 163, 127, 0.06);
+            border-left: 3px solid var(--primary);
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            margin: 10px 0;
+        }
+
+        .message-content .suggestion-box .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .message-content .suggestion-box .actions button {
+            padding: 6px 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            background: transparent;
+            color: var(--text-dark);
+            font-size: 0.78rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .message-content .suggestion-box .actions button:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .message-content .quick-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .message-content .quick-actions button {
+            padding: 8px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 30px;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .message-content .quick-actions button:hover {
+            border-color: var(--primary);
+            color: var(--text-dark);
+            background: rgba(16, 163, 127, 0.06);
+            transform: translateY(-1px);
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 5px;
+            padding: 6px 0;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.3;
+            }
+            30% {
+                transform: translateY(-8px);
+                opacity: 1;
+            }
+        }
+
+        /* ===== INPUT AREA ===== */
+        .input-area {
+            padding: 16px 28px 24px;
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-chat);
+            flex-shrink: 0;
+            transition: background var(--transition), border var(--transition);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 12px;
+            background: var(--bg-main);
+            border-radius: var(--radius);
+            padding: 8px 12px;
+            border: 1.5px solid var(--border-color);
+            transition: var(--transition);
+            align-items: flex-end;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(16, 163, 127, 0.1);
+        }
+
+        .input-wrapper textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-dark);
+            font-family: var(--font);
+            font-size: 0.9rem;
+            resize: none;
+            padding: 6px 0;
+            min-height: 26px;
+            max-height: 150px;
+            line-height: 1.5;
+        }
+
+        .input-wrapper textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .input-wrapper .input-tools {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .input-wrapper .input-tools button {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .input-wrapper .input-tools button:hover {
+            color: var(--text-dark);
+            background: rgba(16, 163, 127, 0.06);
+        }
+
+        .send-btn {
+            padding: 8px 24px;
+            background: var(--primary);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .send-btn:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(16, 163, 127, 0.3);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .input-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .input-footer kbd {
+            background: var(--bg-main);
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            border: 1px solid var(--border-color);
+            font-family: var(--font);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 820px) {
+            .sidebar {
+                width: 240px;
+                padding: 16px 12px;
+            }
+            .message {
+                padding: 14px 20px;
+            }
+            .input-area {
+                padding: 14px 20px 20px;
+            }
+            .chat-header {
+                padding: 14px 20px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 180px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding: 12px;
+                flex-shrink: 0;
+                overflow-y: auto;
+            }
+            .sidebar-brand {
+                font-size: 0.95rem;
+                padding: 6px 12px;
+                margin-bottom: 10px;
+            }
+            .chat-history {
+                display: flex;
+                gap: 6px;
+                flex-wrap: wrap;
+                overflow-y: visible;
+                max-height: 60px;
+                margin-bottom: 8px;
+            }
+            .chat-item {
+                padding: 4px 12px;
+                font-size: 0.7rem;
+                white-space: nowrap;
+            }
+            .new-chat-btn {
+                padding: 8px;
+                font-size: 0.75rem;
+                margin-bottom: 8px;
+            }
+            .sidebar-footer {
+                display: none;
+            }
+            .main-area {
+                height: calc(100vh - 180px);
+            }
+            .message {
+                padding: 12px 16px;
+                gap: 12px;
+            }
+            .message-content {
+                font-size: 0.85rem;
+            }
+            .input-area {
+                padding: 12px 16px 16px;
+            }
+            .input-wrapper {
+                padding: 6px 10px;
+                gap: 8px;
+            }
+            .send-btn {
+                padding: 6px 16px;
+                font-size: 0.78rem;
+            }
+            .chat-header {
+                padding: 12px 16px;
+            }
+            .chat-header h2 {
+                font-size: 0.85rem;
+            }
+            .message-content .quick-actions button {
+                font-size: 0.7rem;
+                padding: 4px 14px;
+            }
+            .header-actions button {
+                padding: 6px 8px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .sidebar {
+                max-height: 150px;
+                padding: 8px;
+            }
+            .chat-item {
+                font-size: 0.65rem;
+                padding: 3px 10px;
+            }
+            .main-area {
+                height: calc(100vh - 150px);
+            }
+            .message {
+                padding: 10px 12px;
+            }
+            .input-area {
+                padding: 10px 12px 14px;
+            }
+            .input-wrapper {
+                flex-wrap: wrap;
+            }
+            .input-wrapper .input-tools {
+                order: 2;
+            }
+            .send-btn {
+                order: 3;
+                flex: 1;
+                justify-content: center;
+            }
+            .input-wrapper textarea {
+                order: 1;
+                width: 100%;
+                min-height: 40px;
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 20px;
+        }
+
+        /* ===== UTILITY ===== */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-muted {
+            color: var(--text-muted);
+        }
+
+        .mt-2 {
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== SIDEBAR ===== -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-brain"></i>
+            <span>CV Pro AI</span>
+        </div>
+
+        <button class="new-chat-btn" onclick="newChat()">
+            <i class="fas fa-plus"></i> New Chat
+        </button>
+
+        <div class="chat-history" id="chatHistory">
+            <div class="chat-item active" data-chat="0">
+                <i class="fas fa-message"></i> Current CV
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="chat-item" onclick="toggleTheme()" style="cursor:pointer;">
+                <i class="fas fa-moon" id="themeIcon"></i> Theme
+            </div>
+            <select class="model-selector" id="modelSelector">
+                <option value="gpt4">GPT-4</option>
+                <option value="claude">Claude 3</option>
+                <option value="gemini">Gemini Pro</option>
+                <option value="local" selected>Local AI</option>
+            </select>
+            <div class="chat-item" style="margin-top:6px; font-size:0.65rem; color:var(--text-muted); cursor:default;">
+                <i class="fas fa-shield-alt"></i> Privacy-first · Local
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN AREA ===== -->
+    <div class="main-area">
+
+        <!-- Header -->
+        <div class="chat-header">
+            <h2>
+                <i class="fas fa-robot" style="color:var(--primary);"></i>
+                AI CV Assistant
+                <span class="status">
+                    <span class="dot"></span> Online
+                </span>
+            </h2>
+            <div class="header-actions">
+                <button onclick="clearChat()" title="Clear chat">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                <button onclick="exportChat()" title="Export chat">
+                    <i class="fas fa-download"></i>
+                </button>
+                <button onclick="toggleTheme()" title="Toggle theme">
+                    <i class="fas fa-moon" id="headerThemeIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="messages-container" id="messagesContainer">
+            <!-- Messages rendered by JS -->
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <div class="input-wrapper">
+                <textarea id="chatInput" rows="1" placeholder="Ask me anything about your CV..." onkeydown="handleKeyDown(event)" oninput="autoResize(this)"></textarea>
+                <div class="input-tools">
+                    <button onclick="toggleVoice()" title="Voice input">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button onclick="insertQuickPrompt()" title="Quick prompts">
+                        <i class="fas fa-bolt"></i>
+                    </button>
+                    <button onclick="clearInput()" title="Clear">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i> Send
+                </button>
+            </div>
+            <div class="input-footer">
+                <span><span id="charCount">0</span> characters</span>
+                <span>Press <kbd>Enter</kbd> to send · <kbd>Shift+Enter</kbd> new line</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== PROFESSIONAL AI CV ASSISTANT =====
+        (function() {
+            "use strict";
+
+            // ===== STATE =====
+            const state = {
+                messages: [],
+                isProcessing: false,
+                cvData: {
+                    name: 'Maria Clark',
+                    email: 'maria@example.com',
+                    phone: '+1 234 567 890',
+                    address: 'New York, USA',
+                    summary: 'Creative UI/UX designer with 6+ years of experience in digital products. Passionate about human-centered design and design systems.',
+                    education: 'B.Sc. in Computer Science · Stanford University (2014–2018)',
+                    experience: 'Lead Designer · Studio X (2020–present) · Designed 20+ products.',
+                    skills: 'Figma, Adobe XD, HTML/CSS, Design Systems, Prototyping',
+                    certifications: 'Google UX Certificate (2022)',
+                    projects: 'Portfolio website · E-commerce app redesign',
+                    languages: 'English (native), Spanish (fluent)'
+                },
+                currentResponse: '',
+                theme: 'light'
+            };
+
+            // ===== DOM REFS =====
+            const messagesContainer = document.getElementById('messagesContainer');
+            const chatInput = document.getElementById('chatInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const charCount = document.getElementById('charCount');
+
+            // ===== INIT =====
+            loadFromStorage();
+            updateCharCount();
+            applyTheme();
+
+            // ===== SAVE / LOAD =====
+            function saveToStorage() {
+                try {
+                    localStorage.setItem('cv_pro_ai_messages', JSON.stringify(state.messages));
+                    localStorage.setItem('cv_pro_ai_cv', JSON.stringify(state.cvData));
+                    localStorage.setItem('cv_pro_ai_theme', state.theme);
+                } catch (e) { /* ignore */ }
+            }
+
+            function loadFromStorage() {
+                try {
+                    const savedMessages = localStorage.getItem('cv_pro_ai_messages');
+                    if (savedMessages) {
+                        const parsed = JSON.parse(savedMessages);
+                        if (Array.isArray(parsed)) state.messages = parsed;
+                    }
+                    const savedCV = localStorage.getItem('cv_pro_ai_cv');
+                    if (savedCV) {
+                        const parsed = JSON.parse(savedCV);
+                        if (parsed && typeof parsed === 'object') state.cvData = { ...state.cvData, ...parsed };
+                    }
+                    const savedTheme = localStorage.getItem('cv_pro_ai_theme');
+                    if (savedTheme) state.theme = savedTheme;
+                } catch (e) { /* ignore */ }
+                renderMessages();
+            }
+
+            // ===== RENDER MESSAGES =====
+            function renderMessages() {
+                messagesContainer.innerHTML = '';
+                if (state.messages.length === 0) {
+                    // Welcome message
+                    const welcome =
+                        `👋 <strong>Welcome to CV Pro AI!</strong> I'm your professional CV assistant.
+
+                    I can help you:
+                    • 📝 Craft an impressive summary
+                    • 🎯 Optimize for ATS (Applicant Tracking Systems)
+                    • 🏆 Add achievements with metrics
+                    • 🌐 Translate your CV
+                    • 💡 Suggest skills and certifications
+
+                    <div class="quick-actions">
+                        <button onclick="sendQuickPrompt('improve_summary')">📝 Improve Summary</button>
+                        <button onclick="sendQuickPrompt('ats_optimize')">🎯 Optimize for ATS</button>
+                        <button onclick="sendQuickPrompt('add_achievements')">🏆 Add Achievements</button>
+                        <button onclick="sendQuickPrompt('translate')">🌐 Translate CV</button>
+                    </div>
+
+                    What would you like to work on?`;
+                    addMessage('ai', welcome, true);
+                    return;
+                }
+                state.messages.forEach((msg, index) => {
+                    const div = createMessageElement(msg.role, msg.content, index);
+                    messagesContainer.appendChild(div);
+                });
+                scrollToBottom();
+            }
+
+            function createMessageElement(role, content, index) {
+                const div = document.createElement('div');
+                div.className = `message ${role}`;
+                div.style.animationDelay = `${Math.min(index * 0.05, 0.5)}s`;
+                div.innerHTML = `
+                    <div class="message-avatar">${role === 'ai' ? '🤖' : '👤'}</div>
+                    <div class="message-content">${content}</div>
+                `;
+                return div;
+            }
+
+            function scrollToBottom() {
+                setTimeout(() => {
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }, 50);
+            }
+
+            // ===== ADD MESSAGE =====
+            function addMessage(role, content, silent = false) {
+                state.messages.push({ role, content });
+                if (!silent) {
+                    const div = createMessageElement(role, content, state.messages.length - 1);
+                    messagesContainer.appendChild(div);
+                    scrollToBottom();
+                    saveToStorage();
+                } else {
+                    // For welcome, we render all at once
+                    renderMessages();
+                    saveToStorage();
+                }
+            }
+
+            // ===== SEND MESSAGE =====
+            async function sendMessage() {
+                const text = chatInput.value.trim();
+                if (!text || state.isProcessing) return;
+
+                // Add user message
+                addMessage('user', text);
+                chatInput.value = '';
+                updateCharCount();
+                sendBtn.disabled = true;
+                state.isProcessing = true;
+
+                // Show typing indicator
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message ai';
+                typingDiv.id = 'typingIndicator';
+                typingDiv.innerHTML = `
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <div class="typing-indicator">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                `;
+                messagesContainer.appendChild(typingDiv);
+                scrollToBottom();
+
+                // Process with AI
+                try {
+                    const response = await processAI(text);
+                    const typingEl = document.getElementById('typingIndicator');
+                    if (typingEl) typingEl.remove();
+                    addMessage('ai', response);
+                } catch (error) {
+                    const typingEl = document.getElementById('typingIndicator');
+                    if (typingEl) typingEl.remove();
+                    addMessage('ai', '⚠️ I encountered an error. Please try again.');
+                }
+
+                state.isProcessing = false;
+                sendBtn.disabled = false;
+                chatInput.focus();
+            }
+
+            // ===== AI PROCESSING (Local + Smart) =====
+            async function processAI(text) {
+                const lower = text.toLowerCase();
+                const cv = state.cvData;
+
+                // Quick prompt detection
+                if (lower.includes('improve summary') || lower.includes('rewrite summary') || lower.includes('better summary')) {
+                    return generateImprovedSummary(cv.summary);
+                }
+
+                if (lower.includes('ats') || lower.includes('optimize') || lower.includes('keywords') || lower.includes(
+                    'applicant tracking')) {
+                    return generateATSSuggestions(cv);
+                }
+
+                if (lower.includes('achievement') || lower.includes('metrics') || lower.includes('quantify') || lower.includes(
+                    'results')) {
+                    return generateAchievementSuggestions(cv.experience);
+                }
+
+                if (lower.includes('translate') || lower.includes('language') || lower.includes('spanish') || lower.includes(
+                    'french') || lower.includes('german') || lower.includes('chinese')) {
+                    return generateTranslation(text);
+                }
+
+                if (lower.includes('skill') || lower.includes('certification') || lower.includes('certificate') || lower
+                    .includes('add skill')) {
+                    return generateSkillSuggestions(cv);
+                }
+
+                if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
+                    return `👋 Hello! I'm your CV assistant. I can help you improve your summary, optimize for ATS, add achievements, translate your CV, and suggest skills. What would you like to work on?`;
+                }
+
+                if (lower.includes('thank')) {
+                    return `You're welcome! 😊 Is there anything else I can help you with regarding your CV?`;
+                }
+
+                // General intelligent response
+                return generateGeneralResponse(text, cv);
+            }
+
+            // ===== AI RESPONSE GENERATORS =====
+
+            function generateImprovedSummary(current) {
+                const improved =
+                    `Results-driven UI/UX designer with 6+ years of experience crafting digital products that blend aesthetics with functionality. Proven track record of leading design teams, implementing design systems, and delivering user-centered solutions that drive business growth. Passionate about bridging the gap between user needs and technical feasibility.`;
+
+                return `
+                    ✨ <strong>Professional Summary Rewrite</strong>
+
+                    📝 <strong>Original:</strong>
+                    ${current}
+
+                    🚀 <strong>Improved Version:</strong>
+                    ${improved}
+
+                    📊 <strong>Key Improvements:</strong>
+                    • Added leadership and business impact
+                    • Included design systems expertise
+                    • Emphasized user-centered approach
+                    • More confident and results-focused tone
+
+                    <div class="suggestion-box">
+                        <div class="actions">
+                            <button onclick="applySuggestion('summary', '${improved.replace(/'/g, "\\'")}')">✅ Apply</button>
+                            <button onclick="sendQuickPrompt('improve_summary')">🔄 Regenerate</button>
+                            <button onclick="editSuggestion('summary')">✏️ Edit</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function generateATSSuggestions(cv) {
+                const keywords = ['design', 'user experience', 'ux', 'ui', 'prototyping', 'figma', 'adobe', 'leadership',
+                    'team', 'project', 'agile', 'scrum', 'design systems', 'research', 'testing', 'interaction'
+                ];
+                const text = (cv.summary + ' ' + cv.experience + ' ' + cv.skills).toLowerCase();
+                const found = keywords.filter(k => text.includes(k));
+                const missing = keywords.filter(k => !text.includes(k));
+                const score = Math.round((found.length / keywords.length) * 100);
+
+                return `
+                    🎯 <strong>ATS Optimization Analysis</strong>
+
+                    📊 <strong>ATS Score:</strong> ${score}%
+
+                    ✅ <strong>Found Keywords (${found.length}/${keywords.length}):</strong>
+                    ${found.join(', ') || 'None'}
+
+                    ⚠️ <strong>Missing Keywords (${missing.length}):</strong>
+                    ${missing.join(', ') || 'All found!'}
+
+                    💡 <strong>Suggestions:</strong>
+                    ${missing.slice(0, 5).map(k => `• Add "${k}" to your skills or experience`).join('\n')}
+
+                    ${missing.length > 0 ? `
+                    <div class="suggestion-box">
+                        <div class="actions">
+                            <button onclick="applyATSSuggestions()">✅ Add Keywords</button>
+                            <button onclick="sendQuickPrompt('ats_optimize')">🔄 Re-analyze</button>
+                        </div>
+                    </div>
+                    ` : '🎉 Your CV is well-optimized for ATS!'}
+                `;
+            }
+
+            function generateAchievementSuggestions(experience) {
+                const metrics = [
+                    'increasing user engagement by 45%',
+                    'resulting in 30% faster delivery',
+                    'driving 25% revenue growth',
+                    'reducing costs by 20%',
+                    'improving team productivity by 40%'
+                ];
+
+                const enhanced =
+                    `• Led the design team on 20+ products, ${metrics[0]}\n• Established design systems that ${metrics[1]}\n• Collaborated with cross-functional teams, ${metrics[2]}\n• Implemented user testing processes, ${metrics[3]}\n• Mentored junior designers, ${metrics[4]}`;
+
+                return `
+                    🏆 <strong>Achievement-Enriched Experience</strong>
+
+                    📝 <strong>Current:</strong>
+                    ${experience}
+
+                    🚀 <strong>Enhanced Version:</strong>
+                    ${enhanced}
+
+                    📊 <strong>Key Improvements:</strong>
+                    • Added quantifiable metrics
+                    • Used action verbs (Led, Established, Implemented)
+                    • Highlighted leadership and collaboration
+                    • Showcased business impact
+
+                    <div class="suggestion-box">
+                        <div class="actions">
+                            <button onclick="applyAchievements()">✅ Apply</button>
+                            <button onclick="sendQuickPrompt('add_achievements')">🔄 Regenerate</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function generateTranslation(text) {
+                const languages = {
+                    'spanish': 'Diseñador UI/UX creativo con 6+ años de experiencia en productos digitales. Apasionado por el diseño centrado en el ser humano y los sistemas de diseño.',
+                    'french': 'Designer UI/UX créatif avec 6+ ans d\'expérience dans les produits numériques. Passionné par le design centré sur l\'humain et les systèmes de design.',
+                    'german': 'Kreativer UI/UX-Designer mit 6+ Jahren Erfahrung in digitalen Produkten. Leidenschaftlich für menschenzentriertes Design und Designsysteme.',
+                    'chinese': '拥有6年以上数字产品经验的创意UI/UX设计师。热衷于以人为本的设计和设计系统。',
+                    'japanese': 'デジタル製品で6年以上の経験を持つクリエイティブなUI/UXデザイナー。人間中心設計とデザインシステムに情熱を持っています。'
+                };
+
+                const detected = Object.keys(languages).find(l => text.toLowerCase().includes(l));
+                const translation = detected ? languages[detected] : languages.spanish;
+                const langName = detected ? detected.charAt(0).toUpperCase() + detected.slice(1) : 'Spanish';
+
+                return `
+                    🌐 <strong>Translation Ready</strong>
+
+                    📝 <strong>Original Summary:</strong>
+                    ${state.cvData.summary}
+
+                    🌍 <strong>${langName} Translation:</strong>
+                    ${translation}
+
+                    <div class="suggestion-box">
+                        <div class="actions">
+                            <button onclick="applyTranslation('${translation.replace(/'/g, "\\'")}')">✅ Apply Translation</button>
+                            <button onclick="sendQuickPrompt('translate')">🔄 Other Language</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function generateSkillSuggestions(cv) {
+                const allSkills = cv.skills.split(',').map(s => s.trim());
+                const recommendations = {
+                    'design': ['Sketch', 'InVision', 'User Research', 'Prototyping', 'Figma', 'Adobe Creative Suite'],
+                    'soft': ['Leadership', 'Communication', 'Problem Solving', 'Team Collaboration', 'Critical Thinking'],
+                    'tech': ['React', 'TypeScript', 'HTML/CSS', 'JavaScript', 'Design Systems']
+                };
+
+                const missing = recommendations.design.filter(s => !allSkills.some(sk => sk.toLowerCase().includes(s
+                .toLowerCase())));
+
+                return `
+                    💡 <strong>Skill Enhancement Suggestions</strong>
+
+                    🎯 <strong>Current Skills:</strong>
+                    ${allSkills.join(', ')}
+
+                    🔥 <strong>Recommended Skills to Add:</strong>
+                    ${missing.length > 0 ? missing.map(s => `• ${s}`).join('\n') : '✅ Your skills are well-rounded!'}
+
+                    📚 <strong>Certification Suggestions:</strong>
+                    • Google UX Design Certificate
+                    • Interaction Design Foundation Courses
+                    • Figma Advanced Certification
+                    • Adobe XD Masterclass
+
+                    <div class="suggestion-box">
+                        <div class="actions">
+                            <button onclick="applySkillSuggestions()">✅ Add Skills</button>
+                            <button onclick="sendQuickPrompt('improve_skills')">🔄 Refresh</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            function generateGeneralResponse(text, cv) {
+                const responses = [
+                    `I can help you with that! Based on your CV, I see you're a ${cv.summary.split(' ').slice(0, 6).join(' ')}...
+
+                    Here's what I can do:
+                    1. 📝 Improve your summary
+                    2. 🎯 Optimize for ATS (Applicant Tracking Systems)
+                    3. 🏆 Add achievements with metrics
+                    4. 🌐 Translate your CV
+                    5. 💡 Suggest skills and certifications
+
+                    What would you like me to help with?`,
+
+                    `Great question! Looking at your CV:
+
+                    💪 <strong>Your strengths:</strong> ${cv.skills.split(',').slice(0, 3).join(', ')}
+                    🎯 <strong>Experience:</strong> ${cv.experience.split('·')[0]}
+                    📈 <strong>Opportunity:</strong> Consider adding more metrics to your experience
+
+                    Would you like me to elaborate on any of these areas?`,
+
+                    `I understand. Let me help you create a standout CV. Your current profile shows:
+
+                    ✅ ${cv.experience.split('·')[0]}
+                    ✅ ${cv.education}
+                    ✅ ${cv.skills.split(',').length} skills listed
+
+                    To make it even stronger, I can help you:
+                    • Add quantifiable achievements
+                    • Improve your summary's impact
+                    • Optimize for ATS keywords
+                    • Suggest relevant certifications
+
+                    What would you like to work on first?`
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+
+            // ===== QUICK PROMPTS =====
+            window.sendQuickPrompt = function(prompt) {
+                const prompts = {
+                    'improve_summary': 'Can you improve my professional summary?',
+                    'ats_optimize': 'Optimize my CV for ATS with relevant keywords.',
+                    'add_achievements': 'Add achievements and metrics to my experience.',
+                    'translate': 'Translate my CV to Spanish.',
+                    'improve_skills': 'Suggest skills and certifications to add.'
+                };
+                chatInput.value = prompts[prompt] || prompt;
+                sendMessage();
+            };
+
+            // ===== APPLY SUGGESTIONS =====
+            window.applySuggestion = function(field, value) {
+                const cv = state.cvData;
+                cv[field] = value;
+                state.cvData = cv;
+                saveToStorage();
+                addMessage('ai', `✅ Applied! Your ${field} has been updated. You can see the changes in the preview.`);
+            };
+
+            window.applyATSSuggestions = function() {
+                const cv = state.cvData;
+                const newSkills = ['User Research', 'Prototyping', 'Design Systems', 'Interaction Design'];
+                const current = cv.skills.split(',').map(s => s.trim());
+                const added = newSkills.filter(s => !current.some(c => c.toLowerCase().includes(s.toLowerCase())));
+                cv.skills = [...current, ...added].join(', ');
+                state.cvData = cv;
+                saveToStorage();
+                addMessage('ai', `✅ Added keywords: ${added.join(', ')}\n\nYour ATS score should improve significantly!`);
+            };
+
+            window.applyAchievements = function() {
+                const cv = state.cvData;
+                cv.experience =
+                    '• Led the design team on 20+ products, increasing user engagement by 45%\n• Established design systems that resulted in 30% faster delivery\n• Collaborated with cross-functional teams, driving 25% revenue growth\n• Implemented user testing processes, reducing costs by 20%\n• Mentored junior designers, improving team productivity by 40%';
+                state.cvData = cv;
+                saveToStorage();
+                addMessage('ai', '✅ Achievements applied! Your experience section now includes quantifiable metrics.');
+            };
+
+            window.applyTranslation = function(translation) {
+                const cv = state.cvData;
+                cv.summary = translation;
+                state.cvData = cv;
+                saveToStorage();
+                addMessage('ai', '✅ Translation applied! Your summary is now in a different language.');
+            };
+
+            window.applySkillSuggestions = function() {
+                const cv = state.cvData;
+                const newSkills = ['Sketch', 'User Research', 'Interaction Design'];
+                const current = cv.skills.split(',').map(s => s.trim());
+                const added = newSkills.filter(s => !current.some(c => c.toLowerCase().includes(s.toLowerCase())));
+                cv.skills = [...current, ...added].join(', ');
+                state.cvData = cv;
+                saveToStorage();
+                addMessage('ai', `✅ Added skills: ${added.join(', ')}\n\nYour skills section is now more comprehensive!`);
+            };
+
+            window.editSuggestion = function(field) {
+                const current = state.cvData[field];
+                const newValue = prompt(`Edit your ${field}:`, current);
+                if (newValue !== null && newValue.trim()) {
+                    state.cvData[field] = newValue.trim();
+                    saveToStorage();
+                    addMessage('ai', `✅ Updated your ${field}!`);
+                }
+            };
+
+            // ===== UI HELPERS =====
+            function updateCharCount() {
+                charCount.textContent = chatInput.value.length;
+            }
+
+            function autoResize(el) {
+                el.style.height = 'auto';
+                el.style.height = Math.min(el.scrollHeight, 150) + 'px';
+                updateCharCount();
+            }
+
+            function handleKeyDown(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            }
+
+            function clearInput() {
+                chatInput.value = '';
+                updateCharCount();
+                chatInput.focus();
+            }
+
+            function newChat() {
+                state.messages = [];
+                renderMessages();
+                addMessage('ai',
+                    '✨ New chat started! How can I help you with your CV today?\n\nYou can ask me to:\n• 📝 Improve your summary\n• 🎯 Optimize for ATS\n• 🏆 Add achievements\n• 🌐 Translate your CV'
+                    );
+                saveToStorage();
+            }
+
+            function clearChat() {
+                if (confirm('Clear all messages?')) {
+                    state.messages = [];
+                    renderMessages();
+                    addMessage('ai', '🧹 Chat cleared. How can I help you with your CV?');
+                    saveToStorage();
+                }
+            }
+
+            function toggleTheme() {
+                state.theme = state.theme === 'light' ? 'dark' : 'light';
+                applyTheme();
+                saveToStorage();
+            }
+
+            function applyTheme() {
+                const isDark = state.theme === 'dark';
+                document.body.classList.toggle('dark', isDark);
+                const icon = document.getElementById('themeIcon');
+                const headerIcon = document.getElementById('headerThemeIcon');
+                const iconClass = isDark ? 'fa-sun' : 'fa-moon';
+                if (icon) icon.className = `fas ${iconClass}`;
+                if (headerIcon) headerIcon.className = `fas ${iconClass}`;
+            }
+
+            function exportChat() {
+                const text = state.messages.map(m =>
+                    `${m.role === 'ai' ? '🤖 AI' : '👤 You'}: ${m.content.replace(/<[^>]*>/g, '')}`
+                ).join('\n\n');
+                const blob = new Blob([text], { type: 'text/plain' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = 'CV_AI_Chat.txt';
+                link.click();
+                URL.revokeObjectURL(link.href);
+            }
+
+            function toggleVoice() {
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                    alert('Voice input is not supported in this browser.');
+                    return;
+                }
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'en-US';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    chatInput.value = transcript;
+                    updateCharCount();
+                    sendMessage();
+                };
+
+                recognition.onerror = function(event) {
+                    alert('Voice input error: ' + event.error);
+                };
+
+                recognition.start();
+                addMessage('ai', '🎤 Listening... Please speak clearly.');
+            }
+
+            function insertQuickPrompt() {
+                const prompts = [
+                    'Improve my summary',
+                    'Optimize for ATS',
+                    'Add achievements to experience',
+                    'Suggest skills to add',
+                    'Translate to Spanish',
+                    'Make more professional',
+                    'Add metrics to experience'
+                ];
+                const prompt = prompt('Choose a quick action:\n' + prompts.map((p, i) => `${i+1}. ${p}`).join('\n'));
+                if (prompt) {
+                    const index = parseInt(prompt) - 1;
+                    if (index >= 0 && index < prompts.length) {
+                        chatInput.value = prompts[index];
+                        updateCharCount();
+                        sendMessage();
+                    } else if (prompt.trim()) {
+                        chatInput.value = prompt;
+                        updateCharCount();
+                        sendMessage();
+                    }
+                }
+            }
+
+            // ===== AUTO-RESIZE ON PASTE =====
+            chatInput.addEventListener('paste', () => {
+                setTimeout(() => {
+                    autoResize(chatInput);
+                    updateCharCount();
+                }, 10);
+            });
+
+            // ===== EXPOSE TO CONSOLE =====
+            window.__cvAI = { state, addMessage, processAI, sendMessage };
+
+            console.log('🚀 CV Pro AI initialized successfully!');
+            console.log('💡 Try typing: "Improve my summary" or "Optimize for ATS"');
+            console.log('📊 CV Data:', state.cvData);
+
+        })();
+    </script>
+</body>
+</html>
