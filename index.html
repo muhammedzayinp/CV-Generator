@@ -11,7 +11,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Georgia&family=Roboto:wght@400;500;700&family=Montserrat:wght@400;500;600;700&family=Lora:wght@400;600&family=Raleway:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&family=Merriweather:wght@400;700&family=Lato:wght@400;700&family=Nunito:wght@400;600;700&family=Work+Sans:wght@400;500;600;700&family=Josefin+Sans:wght@400;600;700&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:wght@400;600;700&family=EB+Garamond:wght@400;600;700&family=Source+Sans+Pro:wght@400;600;700&family=Fira+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
-    <meta name="google-site-verification" content="SS7fnjwu6PqQYFzXYZXEbjt2Pt893Ddmd6AHWgay6SM" />
     <style>
         /* ===== ALL STYLES ===== */
         * {
@@ -1848,6 +1847,7 @@
 
     </div> <!-- ===== END EDITOR PANEL ===== -->
 
+
     <!-- ===== TOAST ===== -->
     <div class="toast" id="toast">
         <span id="toastMessage">Changes applied!</span>
@@ -1925,7 +1925,7 @@
 
             // ===== QUESTIONS WITH UPDATED ICONS AND PERSONAL INFO =====
             const questions = [
-                // ===== PERSONAL INFORMATION =====
+                // ===== PERSONAL INFORMATION (NEW - FIRST 7 QUESTIONS) =====
                 {
                     id: 'fullName',
                     icon: '👤',
@@ -1942,24 +1942,24 @@
                     id: 'email',
                     icon: '📧',
                     question: 'What is your email address?',
-                    subText: 'Enter your professional email address (Gmail, Outlook, or Yahoo recommended).',
+                    subText: 'Enter your professional email address.',
                     options: [
                         { value: 'email', label: 'Email Address', icon: '✏️' }
                     ],
                     allowOther: true,
-                    otherPlaceholder: 'yourname@gmail.com',
+                    otherPlaceholder: 'your.email@example.com',
                     isTextInput: true
                 },
                 {
                     id: 'phone',
                     icon: '📱',
                     question: 'What is your phone number?',
-                    subText: 'Enter your 10-digit phone number (without country code).',
+                    subText: 'Enter your phone number with country code.',
                     options: [
                         { value: 'phone', label: 'Phone Number', icon: '✏️' }
                     ],
                     allowOther: true,
-                    otherPlaceholder: '9876543210',
+                    otherPlaceholder: '+91 98765 43210',
                     isTextInput: true
                 },
                 {
@@ -1974,6 +1974,7 @@
                     otherPlaceholder: 'City, State, Country',
                     isTextInput: true
                 },
+
                 {
                     id: 'pincode',
                     icon: '📮',
@@ -2088,7 +2089,7 @@
                     id: 'certifications',
                     icon: '🎓',
                     question: 'University & Certifications',
-                    subText: 'Enter your university name and/or add certifications with proof (optional).',
+                    subText: 'Enter your university name and/or add certifications with proof.',
                     options: [
                         { value: 'university', label: 'University / Institution Name', icon: '✏️' }
                     ],
@@ -2183,20 +2184,20 @@
                 }];
 
             // ===== CV DATA STORE (for text editing) =====
-let cvData = {
-    name: 'Muhammed Zayin',
-    role: 'Full Stack Developer',
-    email: 'muhammed@example.com',
-    phone: '+91 98765 43210',
-    address: 'Kerala, India',
-    pincode: '682001',
-    portfolio: 'https://muhammedzayin.dev',
-    summary: 'Passionate Full Stack Developer with expertise in building modern web applications. Skilled in React, Node.js, and cloud technologies.',
-    skills: 'React, Node.js, JavaScript, Python, AWS, Docker, MongoDB, PostgreSQL',
-    experience: '• Senior Full Stack Developer at TechCorp (2022-Present)\n• Led development of 15+ web applications\n• Implemented CI/CD pipelines reducing deployment time by 40%\n• Mentored 5 junior developers',
-    education: 'Bachelor of Technology in Computer Science · Kerala University (2018-2022)',
-    certifications: '• AWS Certified Developer\n• Google Cloud Professional\n• MongoDB Certified Developer'
-};
+            let cvData = {
+                name: 'Anika Kumar',
+                role: 'Professional',
+                email: 'anika@example.com',
+                phone: '+91 11 5555 5555',
+                address: 'New Delhi, India 110001',
+                pincode: '',
+                portfolio: '',
+                summary: '',
+                skills: '',
+                experience: '',
+                education: '',
+                certifications: ''
+            };
 
             // ===== STATE =====
             let currentStep = 0;
@@ -2364,9 +2365,6 @@ let cvData = {
                 let optionsHTML = '';
                 let gridClass = q.options.length > 4 ? '' : 'single-col';
 
-                // ===== OPTIONAL BADGE =====
-                let optionalBadge = q.optional ? '<span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;margin-left:8px;">(Optional)</span>' : '';
-
                 // ===== CHECK IF THIS IS A TEXT INPUT QUESTION =====
                 if (q.isTextInput) {
                     // Show a text input instead of options
@@ -2462,7 +2460,7 @@ let cvData = {
 
                 questionArea.innerHTML = `
                     <span class="q-icon">${q.icon}</span>
-                    <h3>${q.question} ${optionalBadge}</h3>
+                    <h3>${q.question}</h3>
                     <p class="sub-text">${q.subText}</p>
                     <div class="options-grid ${gridClass}">
                         ${optionsHTML}
@@ -2738,7 +2736,6 @@ let cvData = {
                     generateCV();
                 }
             };
-
             window.goBack = function () {
                 if (currentStep > 0) {
                     currentStep--;
@@ -3367,7 +3364,8 @@ let cvData = {
                         email: 'anika@example.com',
                         phone: '+91 11 5555 5555',
                         address: 'New Delhi, India 110001',
-                        pincode: '',
+                        pincode: '110001',
+                        linkedin: '',
                         portfolio: '',
                         summary: '',
                         skills: '',
