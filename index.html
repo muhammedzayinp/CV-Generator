@@ -946,6 +946,11 @@
 
         console.log('🚀 Ultimate CV Landing Page loaded!');
         console.log('📝 Click "Create Your CV Now" to start building.');
+        // ===== YOUR SUPABASE CONFIG =====
+const supabaseUrl = 'https://wbquntfipzafjlsutvea.supabase.co';
+const supabaseKey = 'https://wbquntfipzafjlsutvea.supabase.co/rest/v1/cv_data'; // ← PASTE YOUR ACTUAL ANON KEY HERE
+
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
     </script>
 
 </body>
