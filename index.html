@@ -2458,16 +2458,27 @@
                     `;
                 }
 
-                questionArea.innerHTML = `
-                    <span class="q-icon">${q.icon}</span>
-                    <h3>${q.question}</h3>
-                    <p class="sub-text">${q.subText}</p>
-                    <div class="options-grid ${gridClass}">
-                        ${optionsHTML}
-                    </div>
-                    ${otherHTML}
-                    ${certHTML}
-                `;
+                // Add skip button for optional questions
+let skipButtonHTML = '';
+if (q.optional) {
+    skipButtonHTML = `
+        <button class="skip-btn" onclick="skipQuestion('${q.id}')" style="margin-top:10px;padding:8px 20px;background:transparent;border:2px solid var(--border);border-radius:30px;color:var(--text-muted);font-size:0.85rem;font-weight:500;cursor:pointer;transition:var(--transition);font-family:inherit;width:100%;">
+            <i class="fas fa-forward"></i> Skip Question
+        </button>
+    `;
+}
+
+questionArea.innerHTML = `
+    <span class="q-icon">${q.icon}</span>
+    <h3>${q.question} ${optionalBadge}</h3>
+    <p class="sub-text">${q.subText}</p>
+    <div class="options-grid ${gridClass}">
+        ${optionsHTML}
+    </div>
+    ${otherHTML}
+    ${certHTML}
+    ${skipButtonHTML}
+`;
 
                 if (q.allowCertUpload && certifications.length > 0) {
                     const list = document.getElementById('certList');
@@ -2658,6 +2669,8 @@
                     }
                     return;
                 }
+            
+                
 
                 // ===== EMAIL VALIDATION =====
                 if (currentQ.id === 'email') {
