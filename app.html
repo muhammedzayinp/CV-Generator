@@ -3411,11 +3411,23 @@
                         certifications: ''
                     };
                     localStorage.removeItem('cv_data');
-                    cvPreview.innerHTML = `
-                        <div class="empty-state">
-                            <i class="fas fa-edit"></i>
-                            <p>Answer all questions to generate<br>your professional CV</p>
-                        </div>
+                    <!-- CV Preview -->
+<div class="cv-preview" id="cvPreview">
+    <div class="empty-state">
+        <i class="fas fa-edit"></i>
+        <p>Answer all questions to generate<br>your professional CV</p>
+    </div>
+</div>
+
+<!-- ===== ADD THIS BUTTON ===== -->
+<div style="margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap;">
+    <button onclick="saveToCloud()" style="flex:1;padding:12px 20px;border:none;border-radius:30px;background:#10b981;color:white;font-size:0.9rem;font-weight:600;cursor:pointer;transition:0.3s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;">
+        <i class="fas fa-cloud-upload-alt"></i> Save to Cloud
+    </button>
+    <button onclick="loadFromCloud()" style="flex:1;padding:12px 20px;border:none;border-radius:30px;background:#3b82f6;color:white;font-size:0.9rem;font-weight:600;cursor:pointer;transition:0.3s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;">
+        <i class="fas fa-cloud-download-alt"></i> Load from Cloud
+    </button>
+</div>
                     `;
                     document.getElementById('atsScore').textContent = '0%';
                     document.getElementById('atsBar').style.width = '0%';
