@@ -5,24 +5,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ultimate CV · Professional</title>
-    <link rel="icon" type="image/png" href="Logo.png">
-
-
-    <!-- ===== SCRIPTS & CDNs ===== -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
-
-    <!-- Supabase SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-    <!-- Google Fonts -->
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Georgia&family=Roboto:wght@400;500;700&family=Montserrat:wght@400;500;600;700&family=Lora:wght@400;600&family=Raleway:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600;700&family=Merriweather:wght@400;700&family=Lato:wght@400;700&family=Nunito:wght@400;600;700&family=Work+Sans:wght@400;500;600;700&family=Josefin+Sans:wght@400;600;700&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:wght@400;600;700&family=EB+Garamond:wght@400;600;700&family=Source+Sans+Pro:wght@400;600;700&family=Fira+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
-
     <style>
         /* ===== ALL STYLES ===== */
         * {
@@ -1059,6 +1047,7 @@
         }
 
         /* ===== EDITOR PANEL ===== */
+        /* ===== EDITOR TOGGLE BUTTON ===== */
         .editor-toggle {
             position: fixed;
             bottom: 24px;
@@ -1084,11 +1073,13 @@
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
         }
 
+        /* Dark theme support */
         body.dark-theme .editor-toggle {
             border-color: var(--bg);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
         }
 
+        /* Mobile responsive */
         @media (max-width: 640px) {
             .editor-toggle {
                 width: 52px;
@@ -1619,7 +1610,7 @@
         <div class="left-panel">
             <div class="panel-header">
                 <h2><i class="fas fa-question-circle"></i> Build Your CV</h2>
-                <span class="step-badge" id="stepBadge">Step 1 of 16</span>
+                <span class="step-badge" id="stepBadge">Step 1 of 12</span>
             </div>
             <div class="progress-bar">
                 <div class="fill" id="progressFill"></div>
@@ -1689,22 +1680,12 @@
                 <div class="template-gallery" id="templateGallery"></div>
             </div>
 
-            <!-- ===== CV PREVIEW ===== -->
+            <!-- CV Preview -->
             <div class="cv-preview" id="cvPreview">
                 <div class="empty-state">
                     <i class="fas fa-edit"></i>
                     <p>Answer all questions to generate<br>your professional CV</p>
                 </div>
-            </div>
-
-            <!-- ===== CLOUD SAVE/LOAD BUTTONS ===== -->
-            <div style="margin-top: 12px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <button onclick="saveToCloud()" style="flex:1;padding:12px 20px;border:none;border-radius:30px;background:#10b981;color:white;font-size:0.9rem;font-weight:600;cursor:pointer;transition:0.3s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;">
-                    <i class="fas fa-cloud-upload-alt"></i> Save to Cloud
-                </button>
-                <button onclick="loadFromCloud()" style="flex:1;padding:12px 20px;border:none;border-radius:30px;background:#3b82f6;color:white;font-size:0.9rem;font-weight:600;cursor:pointer;transition:0.3s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;">
-                    <i class="fas fa-cloud-download-alt"></i> Load from Cloud
-                </button>
             </div>
         </div>
 
@@ -1879,78 +1860,6 @@
     </button>
 
     <script>
-        // ============================================================
-        // ===== SUPABASE CONFIGURATION (ADD THIS) =====
-        // ============================================================
-        // ⚠️ REPLACE 'YOUR_ACTUAL_ANON_KEY' with your Supabase anon key
-        // ============================================================
-
-        const supabaseUrl = 'https://wbquntfipzafjlsutvea.supabase.co';
-        const supabaseKey = 'sb_publishable_QLoLetGeVUkl_VwQ55beDw_LLXbxJ_M'; // ← REPLACE THIS!
-
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-        // ===== CLOUD FUNCTIONS =====
-
-        async function saveToCloud() {
-            const { data: { user }, error: userError } = await supabase.auth.getUser();
-            if (!user) {
-                showToast('❌ Please sign in first!');
-                return;
-            }
-
-            const cvData = buildCVData();
-            const { data, error } = await supabase
-                .from('cv_data')
-                .upsert({
-                    user_id: user.id,
-                    cv_json: cvData,
-                    updated_at: new Date().toISOString()
-                }, { onConflict: 'user_id' });
-
-            if (error) {
-                showToast('❌ Error saving: ' + error.message);
-            } else {
-                showToast('✅ CV saved to cloud!');
-            }
-        }
-
-        async function loadFromCloud() {
-            const { data: { user }, error: userError } = await supabase.auth.getUser();
-            if (!user) {
-                showToast('❌ Please sign in first!');
-                return;
-            }
-
-            const { data, error } = await supabase
-                .from('cv_data')
-                .select('cv_json')
-                .eq('user_id', user.id)
-                .single();
-
-            if (error) {
-                if (error.code === 'PGRST116') {
-                    showToast('📂 No saved CV found');
-                } else {
-                    showToast('❌ Error loading: ' + error.message);
-                }
-                return;
-            }
-
-            if (data?.cv_json) {
-                Object.assign(cvData, data.cv_json);
-                if (cvGenerated) {
-                    const newData = buildCVData();
-                    renderCVPreview(newData);
-                }
-                showToast('✅ CV loaded from cloud!');
-            }
-        }
-
-        // ============================================================
-        // ===== END OF SUPABASE CONFIG =====
-        // ============================================================
-
         // ===== COMPLETE JAVASCRIPT =====
         (function () {
             "use strict";
@@ -2016,13 +1925,15 @@
 
             // ===== QUESTIONS WITH UPDATED ICONS AND PERSONAL INFO =====
             const questions = [
-                // ===== PERSONAL INFORMATION =====
+                // ===== PERSONAL INFORMATION (NEW - FIRST 7 QUESTIONS) =====
                 {
                     id: 'fullName',
                     icon: '👤',
                     question: 'What is your full name?',
                     subText: 'Enter your full name as you want it to appear on your CV.',
-                    options: [{ value: 'name', label: 'Full Name', icon: '✏️' }],
+                    options: [
+                        { value: 'name', label: 'Full Name', icon: '✏️' }
+                    ],
                     allowOther: true,
                     otherPlaceholder: 'Enter your full name...',
                     isTextInput: true
@@ -2031,20 +1942,24 @@
                     id: 'email',
                     icon: '📧',
                     question: 'What is your email address?',
-                    subText: 'Enter your professional email address (Gmail, Outlook, or Yahoo recommended).',
-                    options: [{ value: 'email', label: 'Email Address', icon: '✏️' }],
+                    subText: 'Enter your professional email address.',
+                    options: [
+                        { value: 'email', label: 'Email Address', icon: '✏️' }
+                    ],
                     allowOther: true,
-                    otherPlaceholder: 'yourname@gmail.com',
+                    otherPlaceholder: 'your.email@example.com',
                     isTextInput: true
                 },
                 {
                     id: 'phone',
                     icon: '📱',
                     question: 'What is your phone number?',
-                    subText: 'Enter your 10-digit phone number (without country code).',
-                    options: [{ value: 'phone', label: 'Phone Number', icon: '✏️' }],
+                    subText: 'Enter your phone number with country code.',
+                    options: [
+                        { value: 'phone', label: 'Phone Number', icon: '✏️' }
+                    ],
                     allowOther: true,
-                    otherPlaceholder: '9876543210',
+                    otherPlaceholder: '+91 98765 43210',
                     isTextInput: true
                 },
                 {
@@ -2052,17 +1967,22 @@
                     icon: '📍',
                     question: 'What is your address / location?',
                     subText: 'Enter your city, state, and country.',
-                    options: [{ value: 'address', label: 'Address / Location', icon: '✏️' }],
+                    options: [
+                        { value: 'address', label: 'Address / Location', icon: '✏️' }
+                    ],
                     allowOther: true,
                     otherPlaceholder: 'City, State, Country',
                     isTextInput: true
                 },
+
                 {
                     id: 'pincode',
                     icon: '📮',
                     question: 'What is your pincode / zip code?',
                     subText: 'Enter your postal code (optional).',
-                    options: [{ value: 'pincode', label: 'Pincode / Zip Code', icon: '✏️' }],
+                    options: [
+                        { value: 'pincode', label: 'Pincode / Zip Code', icon: '✏️' }
+                    ],
                     allowOther: true,
                     otherPlaceholder: 'Enter your pincode...',
                     isTextInput: true,
@@ -2073,7 +1993,9 @@
                     icon: '🌐',
                     question: 'What is your portfolio website?',
                     subText: 'Enter your portfolio or personal website URL (optional).',
-                    options: [{ value: 'portfolio', label: 'Portfolio / Website', icon: '✏️' }],
+                    options: [
+                        { value: 'portfolio', label: 'Portfolio / Website', icon: '✏️' }
+                    ],
                     allowOther: true,
                     otherPlaceholder: 'https://yourportfolio.com',
                     isTextInput: true,
@@ -2167,8 +2089,10 @@
                     id: 'certifications',
                     icon: '🎓',
                     question: 'University & Certifications',
-                    subText: 'Enter your university name and/or add certifications with proof (optional).',
-                    options: [{ value: 'university', label: 'University / Institution Name', icon: '✏️' }],
+                    subText: 'Enter your university name and/or add certifications with proof.',
+                    options: [
+                        { value: 'university', label: 'University / Institution Name', icon: '✏️' }
+                    ],
                     allowOther: true,
                     otherPlaceholder: 'Enter your university/institution name...',
                     allowCertUpload: true,
@@ -2257,23 +2181,22 @@
                     ],
                     allowOther: true,
                     otherPlaceholder: 'Enter your support need...'
-                }
-            ];
+                }];
 
             // ===== CV DATA STORE (for text editing) =====
             let cvData = {
-                name: 'Muhammed Zayin',
-                role: 'Full Stack Developer',
-                email: 'muhammed@example.com',
-                phone: '+91 98765 43210',
-                address: 'Kerala, India',
-                pincode: '682001',
-                portfolio: 'https://muhammedzayin.dev',
-                summary: 'Passionate Full Stack Developer with expertise in building modern web applications. Skilled in React, Node.js, and cloud technologies.',
-                skills: 'React, Node.js, JavaScript, Python, AWS, Docker, MongoDB, PostgreSQL',
-                experience: '• Senior Full Stack Developer at TechCorp (2022-Present)\n• Led development of 15+ web applications\n• Implemented CI/CD pipelines reducing deployment time by 40%\n• Mentored 5 junior developers',
-                education: 'Bachelor of Technology in Computer Science · Kerala University (2018-2022)',
-                certifications: '• AWS Certified Developer\n• Google Cloud Professional\n• MongoDB Certified Developer'
+                name: 'Anika Kumar',
+                role: 'Professional',
+                email: 'anika@example.com',
+                phone: '+91 11 5555 5555',
+                address: 'New Delhi, India 110001',
+                pincode: '',
+                portfolio: '',
+                summary: '',
+                skills: '',
+                experience: '',
+                education: '',
+                certifications: ''
             };
 
             // ===== STATE =====
@@ -2380,7 +2303,7 @@
             }
 
             // ===== FILTER TEMPLATES =====
-            window.filterTemplates = function(category) {
+            window.filterTemplates = function (category) {
                 currentFilter = category;
                 document.querySelectorAll('.filter-btn').forEach(btn => {
                     btn.classList.toggle('active', btn.textContent.toLowerCase() === category || (category === 'all' && btn.textContent === 'All'));
@@ -2388,7 +2311,7 @@
                 renderTemplates();
             };
 
-            window.selectTemplate = function(id) {
+            window.selectTemplate = function (id) {
                 selectedTemplate = id;
                 answers.template = id;
                 renderTemplates();
@@ -2431,7 +2354,7 @@
                 });
             }
 
-            // ===== RENDER QUESTION =====
+            // ===== RENDER QUESTION (FIXED WITH TEXT INPUT SUPPORT) =====
             function renderQuestion(step) {
                 const q = questions[step];
                 if (!q) return;
@@ -2442,21 +2365,9 @@
                 let optionsHTML = '';
                 let gridClass = q.options.length > 4 ? '' : 'single-col';
 
-                // ===== OPTIONAL BADGE =====
-                let optionalBadge = q.optional ? '<span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;margin-left:8px;">(Optional)</span>' : '';
-
-                // ===== SKIP BUTTON =====
-                let skipButtonHTML = '';
-                if (q.optional) {
-                    skipButtonHTML = `
-                        <button class="skip-btn" onclick="skipQuestion('${q.id}')" style="margin-top:10px;padding:10px 20px;background:transparent;border:2px solid var(--border);border-radius:30px;color:var(--text-muted);font-size:0.85rem;font-weight:500;cursor:pointer;transition:var(--transition);font-family:inherit;width:100%;">
-                            <i class="fas fa-forward"></i> Skip Question
-                        </button>
-                    `;
-                }
-
                 // ===== CHECK IF THIS IS A TEXT INPUT QUESTION =====
                 if (q.isTextInput) {
+                    // Show a text input instead of options
                     optionsHTML = `
                         <div class="other-input-container" style="margin-top:0;">
                             <input type="text" id="textInput_${q.id}" 
@@ -2468,6 +2379,7 @@
                     `;
                     gridClass = 'single-col';
                 } else {
+                    // ===== NORMAL OPTIONS (buttons) =====
                     q.options.forEach((opt, index) => {
                         const isSelected = answers[q.id] === opt.value ||
                             (Array.isArray(answers[q.id]) && answers[q.id].includes(opt.value));
@@ -2548,14 +2460,13 @@
 
                 questionArea.innerHTML = `
                     <span class="q-icon">${q.icon}</span>
-                    <h3>${q.question} ${optionalBadge}</h3>
+                    <h3>${q.question}</h3>
                     <p class="sub-text">${q.subText}</p>
                     <div class="options-grid ${gridClass}">
                         ${optionsHTML}
                     </div>
                     ${otherHTML}
                     ${certHTML}
-                    ${skipButtonHTML}
                 `;
 
                 if (q.allowCertUpload && certifications.length > 0) {
@@ -2579,24 +2490,14 @@
                 questionArea.classList.remove('hidden');
             }
 
-            // ===== SKIP OPTIONAL QUESTION =====
-            window.skipQuestion = function(questionId) {
-                answers[questionId] = 'skipped';
-                answers[questionId + '_other'] = '';
-
-                if (currentStep < questions.length - 1) {
-                    currentStep++;
-                    renderQuestion(currentStep);
-                } else {
-                    generateCV();
-                }
-
-                showToast('⏭️ Skipped');
-            };
-
             // ===== QUICK ADD CERT =====
-            window.quickAddCert = function(name) {
-                certifications.push({ name: name, fileName: 'Quick added', fileSize: '0 KB', file: null });
+            window.quickAddCert = function (name) {
+                certifications.push({
+                    name: name,
+                    fileName: 'Quick added',
+                    fileSize: '0 KB',
+                    file: null
+                });
                 const list = document.getElementById('certList');
                 if (list) {
                     list.innerHTML = certifications.map((cert, i) => `
@@ -2615,7 +2516,7 @@
             };
 
             // ===== SELECT OPTION =====
-            window.selectOption = function(questionId, value, index) {
+            window.selectOption = function (questionId, value, index) {
                 const q = questions.find(q => q.id === questionId);
                 if (!q) return;
 
@@ -2666,7 +2567,7 @@
                 updateNavButtons(currentStep);
             };
 
-            window.updateOther = function(questionId, value) {
+            window.updateOther = function (questionId, value) {
                 answers[questionId + '_other'] = value;
                 if (value.trim()) {
                     answers[questionId] = 'other';
@@ -2675,14 +2576,14 @@
             };
 
             // ===== TEXT INPUT HANDLER =====
-            window.updateTextInput = function(questionId, value) {
+            window.updateTextInput = function (questionId, value) {
                 answers[questionId + '_other'] = value;
                 answers[questionId] = value.trim() ? 'custom' : '';
                 updateNavButtons(currentStep);
             };
 
             // ===== CERTIFICATE HANDLERS =====
-            window.handleCertUpload = function(event) {
+            window.handleCertUpload = function (event) {
                 const file = event.target.files[0];
                 if (!file) return;
 
@@ -2722,7 +2623,7 @@
                 updateNavButtons(currentStep);
             };
 
-            window.removeCert = function(index) {
+            window.removeCert = function (index) {
                 certifications.splice(index, 1);
                 const list = document.getElementById('certList');
                 if (list) {
@@ -2744,20 +2645,18 @@
             };
 
             // ===== NAVIGATION =====
-            window.goNext = function() {
+            window.goNext = function () {
                 const currentQ = questions[currentStep];
 
                 // Skip optional questions
                 if (currentQ.optional) {
-                    if (!answers[currentQ.id] || answers[currentQ.id] === '' || answers[currentQ.id] === 'skipped') {
-                        if (currentStep < questions.length - 1) {
-                            currentStep++;
-                            renderQuestion(currentStep);
-                        } else {
-                            generateCV();
-                        }
-                        return;
+                    if (currentStep < questions.length - 1) {
+                        currentStep++;
+                        renderQuestion(currentStep);
+                    } else {
+                        generateCV();
                     }
+                    return;
                 }
 
                 // ===== EMAIL VALIDATION =====
@@ -2789,6 +2688,7 @@
                         showToast('❌ Please enter a valid pincode (5-6 digits)');
                         return;
                     }
+                    // If empty, it's optional - allow skip
                     if (!pincodeValue) {
                         if (currentStep < questions.length - 1) {
                             currentStep++;
@@ -2810,6 +2710,7 @@
                             return;
                         }
                     }
+                    // If empty, it's optional - allow skip
                     if (!portfolioValue) {
                         if (currentStep < questions.length - 1) {
                             currentStep++;
@@ -2835,8 +2736,7 @@
                     generateCV();
                 }
             };
-
-            window.goBack = function() {
+            window.goBack = function () {
                 if (currentStep > 0) {
                     currentStep--;
                     renderQuestion(currentStep);
@@ -2861,8 +2761,8 @@
                 nextBtn.disabled = !hasAnswer;
             }
 
-            // ===== UPDATE TEXT =====
-            window.updateText = function(element, field) {
+            // ===== UPDATE TEXT (FIXED - SAVES PROPERLY) =====
+            window.updateText = function (element, field) {
                 const value = element.textContent.trim();
                 cvData[field] = value;
                 try {
@@ -2905,17 +2805,18 @@
             function buildCVData() {
                 const template = templates.find(t => t.id === selectedTemplate) || templates.find(t => t.id === answers.template) || templates[0];
 
-                const fullName = answers.fullName_other || 'Muhammed Zayin';
-                const email = answers.email_other || 'muhammed@example.com';
-                const phone = answers.phone_other || '+91 98765 43210';
-                const address = answers.address_other || 'Kerala, India';
-                const pincode = answers.pincode_other || '682001';
-                const portfolio = answers.portfolio_other || 'https://muhammedzayin.dev';
+                // ===== PERSONAL INFO =====
+                const fullName = answers.fullName_other || 'Anika Kumar';
+                const email = answers.email_other || 'anika@example.com';
+                const phone = answers.phone_other || '+91 11 5555 5555';
+                const address = answers.address_other || 'New Delhi, India 110001';
+                const pincode = answers.pincode_other || '';
+                const portfolio = answers.portfolio_other || '';
 
-                const role = answers.role === 'other' ? answers.role_other : answers.role || 'Full Stack Developer';
+                const role = answers.role === 'other' ? answers.role_other : answers.role || 'Professional';
                 const experience = answers.experience || 'mid';
                 const goals = answers.goals === 'other' ? answers.goals_other : answers.goals || 'advance';
-                const skills = Array.isArray(answers.skills) ? answers.skills : [answers.skills || 'technical'];
+                const skills = Array.isArray(answers.skills) ? answers.skills : [answers.skills || 'soft'];
                 const education = answers.education === 'other' ? answers.education_other : answers.education || 'bachelors';
                 const languages = Array.isArray(answers.languages) ? answers.languages : [answers.languages || 'english'];
 
@@ -2930,7 +2831,7 @@
                 const eduTexts = {
                     'highschool': 'High School Diploma (Expected 2025)',
                     'associate': 'Associate Degree in [Field]',
-                    'bachelors': 'Bachelor of Technology in Computer Science',
+                    'bachelors': 'Bachelor of Science in [Field]',
                     'masters': 'Master of Science in [Field]',
                     'phd': 'Ph.D. in [Field]',
                     'professional': 'Professional Certification in [Field]',
@@ -2939,7 +2840,7 @@
 
                 const skillMap = {
                     'leadership': 'Leadership, Team Management, Strategic Planning, Communication',
-                    'technical': 'React, Node.js, JavaScript, Python, AWS, Docker, MongoDB, PostgreSQL',
+                    'technical': 'Programming, System Architecture, Data Analysis, Cloud Computing',
                     'creative': 'Creative Design, UI/UX, Adobe Creative Suite, Branding',
                     'analytical': 'Data Analysis, Research, Problem Solving, Critical Thinking',
                     'soft': 'Communication, Collaboration, Adaptability, Problem Solving'
@@ -2968,7 +2869,7 @@
                 };
 
                 const summary = cvData.summary ||
-                    `Full Stack Developer with ${experience} level experience. Passionate about ${skills.map(s => skillMap[s] || s).join(', ')}. Dedicated to ${goalTexts[goals] || 'achieve your career goals'}. Known for delivering high-quality results.`;
+                    `Professional ${role} with ${experience} level experience. Passionate about ${skills.map(s => skillMap[s] || s).join(', ')}. Dedicated to ${goalTexts[goals] || 'achieve your career goals'}. Known for delivering high-quality results.`;
 
                 return {
                     template: template,
@@ -2977,13 +2878,14 @@
                     phone: phone,
                     address: address,
                     pincode: pincode,
+                    linkedin: linkedin,
                     portfolio: portfolio,
                     role: role,
                     summary: summary,
-                    education: cvData.education || eduTexts[education] || 'Bachelor of Technology',
+                    education: cvData.education || eduTexts[education] || 'Bachelor of Science',
                     experience: cvData.experience || expTexts[experience] || expTexts.mid,
                     skills: cvData.skills || skills.map(s => skillMap[s] || s).join(', '),
-                    certifications: cvData.certifications || (certifications.length > 0 ? certifications.map(c => `• ${c.name}`).join('\n') : '• AWS Certified Developer\n• Google Cloud Professional'),
+                    certifications: cvData.certifications || (certifications.length > 0 ? certifications.map(c => `• ${c.name}`).join('\n') : '• Professional certifications in progress'),
                     languages: cvData.languages || languages.map(l => langMap[l] || l).join(', '),
                     certificationsList: certifications
                 };
@@ -3090,6 +2992,7 @@
                     wrapperOpen = `<div id="cv" style="background:${bgColor};color:${textColor};${borderStyle} font-family:'${font}',sans-serif;">`;
                 }
 
+                // Build contact info with all fields
                 let contactHTML = `
                     <span><i class="fas fa-map-pin" style="color:${primaryColor};"></i> ${data.address}</span>
                     <span style="margin:0 6px;">|</span>
@@ -3123,7 +3026,7 @@
 
             // ===== EDITOR FUNCTIONS =====
 
-            window.toggleEditor = function() {
+            window.toggleEditor = function () {
                 const panel = document.getElementById('editorPanel');
                 const overlay = document.getElementById('editorOverlay');
                 panel.classList.toggle('open');
@@ -3133,11 +3036,11 @@
 
             // ===== PHOTO FUNCTIONS =====
 
-            window.uploadPhoto = function(event) {
+            window.uploadPhoto = function (event) {
                 const file = event.target.files[0];
                 if (!file) return;
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     photoDataURL = e.target.result;
                     const photo = document.getElementById('profilePhoto');
                     if (photo) {
@@ -3149,7 +3052,7 @@
                 reader.readAsDataURL(file);
             };
 
-            window.updatePhotoFrame = function() {
+            window.updatePhotoFrame = function () {
                 const frame = document.getElementById('photoFrame').value;
                 const photo = document.getElementById('profilePhoto');
                 if (!photo) return;
@@ -3163,7 +3066,7 @@
                 applyCustomizations();
             };
 
-            window.updatePhotoSize = function() {
+            window.updatePhotoSize = function () {
                 const size = document.getElementById('photoSize').value;
                 document.getElementById('photoSizeLabel').textContent = size + 'px';
                 const photo = document.getElementById('profilePhoto');
@@ -3174,19 +3077,19 @@
                 applyCustomizations();
             };
 
-            window.updatePhotoPosition = function() {
+            window.updatePhotoPosition = function () {
                 const position = document.getElementById('photoPosition').value;
                 const photo = document.getElementById('profilePhoto');
                 if (photo) {
                     photo.style.margin = position === 'center' ? '0 auto 12px' :
                         position === 'left' ? '0 auto 12px 0' :
-                        '0 0 12px auto';
+                            '0 0 12px auto';
                     photo.style.display = 'block';
                 }
                 applyCustomizations();
             };
 
-            window.updatePhotoBorder = function() {
+            window.updatePhotoBorder = function () {
                 const color = document.getElementById('photoBorderColor').value;
                 const photo = document.getElementById('profilePhoto');
                 if (photo) {
@@ -3195,7 +3098,7 @@
                 applyCustomizations();
             };
 
-            window.updateCornerRadius = function() {
+            window.updateCornerRadius = function () {
                 const radius = document.getElementById('cornerRadius').value;
                 document.getElementById('cornerRadiusLabel').textContent = radius + 'px';
                 const photo = document.getElementById('profilePhoto');
@@ -3212,15 +3115,17 @@
 
             // ===== COLOR FUNCTIONS =====
 
-            window.updateColors = function() {
+            window.updateColors = function () {
                 customStyles.primaryColor = document.getElementById('primaryColor').value;
                 customStyles.secondaryColor = document.getElementById('secondaryColor').value;
                 customStyles.bgColor = document.getElementById('bgColor').value;
                 customStyles.textColor = document.getElementById('textColor').value;
 
+                // Update CSS variables
                 document.documentElement.style.setProperty('--primary', customStyles.primaryColor);
                 document.documentElement.style.setProperty('--primary-dark', customStyles.primaryColor);
 
+                // Update photo border color to match primary
                 document.getElementById('photoBorderColor').value = customStyles.primaryColor;
 
                 applyCustomizations();
@@ -3228,9 +3133,10 @@
 
             // ===== TYPOGRAPHY FUNCTIONS =====
 
-            window.updateFont = function() {
+            window.updateFont = function () {
                 customStyles.font = document.getElementById('fontSelect').value;
                 customStyles.fontSize = document.getElementById('fontSize').value;
+                // Force refresh of CV preview
                 if (cvGenerated) {
                     const data = buildCVData();
                     renderCVPreview(data);
@@ -3240,25 +3146,25 @@
                 }
             };
 
-            window.toggleBold = function() {
+            window.toggleBold = function () {
                 customStyles.bold = !customStyles.bold;
                 document.getElementById('boldBtn').classList.toggle('active');
                 applyCustomizations();
             };
 
-            window.toggleItalic = function() {
+            window.toggleItalic = function () {
                 customStyles.italic = !customStyles.italic;
                 document.getElementById('italicBtn').classList.toggle('active');
                 applyCustomizations();
             };
 
-            window.toggleUnderline = function() {
+            window.toggleUnderline = function () {
                 customStyles.underline = !customStyles.underline;
                 document.getElementById('underlineBtn').classList.toggle('active');
                 applyCustomizations();
             };
 
-            window.setAlignment = function(align) {
+            window.setAlignment = function (align) {
                 customStyles.alignment = align;
                 document.querySelectorAll('#alignLeft, #alignCenter, #alignRight').forEach(btn => {
                     btn.classList.remove('active');
@@ -3271,7 +3177,7 @@
 
             // ===== LAYOUT FUNCTIONS =====
 
-            window.setLayout = function(layout) {
+            window.setLayout = function (layout) {
                 customStyles.layout = layout;
                 document.querySelectorAll('#layout1, #layout2, #layout3').forEach(btn => {
                     btn.classList.remove('active');
@@ -3286,7 +3192,7 @@
                 applyCustomizations();
             };
 
-            window.updateSpacing = function() {
+            window.updateSpacing = function () {
                 customStyles.spacing = parseFloat(document.getElementById('spacingControl').value);
                 document.getElementById('spacingLabel').textContent = customStyles.spacing.toFixed(1);
                 applyCustomizations();
@@ -3294,7 +3200,7 @@
 
             // ===== SECTION FUNCTIONS =====
 
-            window.toggleSection = function(section) {
+            window.toggleSection = function (section) {
                 sectionVisibility[section] = !sectionVisibility[section];
                 const items = document.querySelectorAll('.section-item');
                 items.forEach(item => {
@@ -3311,7 +3217,7 @@
 
             // ===== APPLY CUSTOMIZATIONS =====
 
-            window.applyCustomizations = function() {
+            window.applyCustomizations = function () {
                 if (!cvGenerated) {
                     showToast('Please generate your CV first!');
                     return;
@@ -3323,7 +3229,7 @@
 
             // ===== RESET CUSTOMIZATIONS =====
 
-            window.resetCustomizations = function() {
+            window.resetCustomizations = function () {
                 if (confirm('Reset all customizations to default?')) {
                     customStyles = {
                         primaryColor: '#1a73e8',
@@ -3340,6 +3246,7 @@
                         alignment: 'left'
                     };
 
+                    // Reset all DOM elements
                     document.getElementById('primaryColor').value = '#1a73e8';
                     document.getElementById('secondaryColor').value = '#C9A84C';
                     document.getElementById('bgColor').value = '#FFFFFF';
@@ -3352,10 +3259,12 @@
                     document.getElementById('cornerRadius').value = '12';
                     document.getElementById('cornerRadiusLabel').textContent = '12px';
 
+                    // Reset buttons
                     document.querySelectorAll('.btn-group button').forEach(btn => btn.classList.remove('active'));
                     document.getElementById('layout1').classList.add('active');
                     document.getElementById('alignLeft').classList.add('active');
 
+                    // Reset CSS variables
                     document.documentElement.style.setProperty('--primary', '#1a73e8');
                     document.documentElement.style.setProperty('--primary-dark', '#1a73e8');
 
@@ -3389,7 +3298,7 @@
             }
 
             // ===== EXPORT FUNCTIONS =====
-            window.downloadPDF = function() {
+            window.downloadPDF = function () {
                 if (!cvGenerated) {
                     showToast('Please complete all questions first!');
                     return;
@@ -3397,7 +3306,7 @@
                 const element = document.getElementById('cv');
                 html2pdf().set({
                     margin: 0.5,
-                    filename: 'Muhammed_Zayin_CV.pdf',
+                    filename: 'My_CV.pdf',
                     image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: { scale: 2 },
                     jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
@@ -3405,7 +3314,7 @@
                 showToast('PDF downloaded!');
             };
 
-            window.downloadDOCX = function() {
+            window.downloadDOCX = function () {
                 if (!cvGenerated) {
                     showToast('Please complete all questions first!');
                     return;
@@ -3435,13 +3344,13 @@
                 const blob = new Blob([content], { type: 'application/msword' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = 'Muhammed_Zayin_CV.doc';
+                link.download = 'My_CV.doc';
                 link.click();
                 URL.revokeObjectURL(link.href);
                 showToast('DOCX downloaded!');
             };
 
-            window.resetAll = function() {
+            window.resetAll = function () {
                 if (confirm('Reset everything? This will clear all your answers and CV.')) {
                     Object.keys(answers).forEach(key => delete answers[key]);
                     certifications.length = 0;
@@ -3450,13 +3359,14 @@
                     selectedTemplate = null;
                     photoDataURL = null;
                     cvData = {
-                        name: 'Muhammed Zayin',
-                        role: 'Full Stack Developer',
-                        email: 'muhammed@example.com',
-                        phone: '+91 98765 43210',
-                        address: 'Kerala, India',
-                        pincode: '682001',
-                        portfolio: 'https://muhammedzayin.dev',
+                        name: 'Anika Kumar',
+                        role: 'Professional',
+                        email: 'anika@example.com',
+                        phone: '+91 11 5555 5555',
+                        address: 'New Delhi, India 110001',
+                        pincode: '110001',
+                        linkedin: '',
+                        portfolio: '',
                         summary: '',
                         skills: '',
                         experience: '',
@@ -3483,7 +3393,7 @@
                 }
             };
 
-            window.saveProgress = function() {
+            window.saveProgress = function () {
                 try {
                     localStorage.setItem('cv_answers', JSON.stringify(answers));
                     localStorage.setItem('cv_certifications', JSON.stringify(certifications));
@@ -3532,7 +3442,7 @@
             }
 
             // ===== THEME =====
-            window.toggleTheme = function() {
+            window.toggleTheme = function () {
                 isDark = !isDark;
                 document.body.classList.toggle('dark-theme', isDark);
                 document.querySelector('.cv-preview').classList.toggle('dark-preview', isDark);
@@ -3563,7 +3473,7 @@
                 }, 3000);
             }
 
-            window.hideToast = function() {
+            window.hideToast = function () {
                 document.getElementById('toast').classList.remove('show');
             };
 
@@ -3576,7 +3486,7 @@
                         ghostClass: 'sortable-ghost',
                         dragClass: 'sortable-drag',
                         handle: '.drag-handle',
-                        onEnd: function() {
+                        onEnd: function () {
                             const items = sectionList.querySelectorAll('.section-item');
                             sectionOrder = [];
                             items.forEach(item => {
