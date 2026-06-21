@@ -1610,7 +1610,7 @@
         <div class="left-panel">
             <div class="panel-header">
                 <h2><i class="fas fa-question-circle"></i> Build Your CV</h2>
-                <span class="step-badge" id="stepBadge">Step 1 of 12</span>
+                <span class="step-badge" id="stepBadge">Step 1 of 16</span>
             </div>
             <div class="progress-bar">
                 <div class="fill" id="progressFill"></div>
@@ -1925,7 +1925,7 @@
 
             // ===== QUESTIONS WITH UPDATED ICONS AND PERSONAL INFO =====
             const questions = [
-                // ===== PERSONAL INFORMATION (NEW - FIRST 7 QUESTIONS) =====
+                // ===== PERSONAL INFORMATION =====
                 {
                     id: 'fullName',
                     icon: '👤',
@@ -1942,24 +1942,24 @@
                     id: 'email',
                     icon: '📧',
                     question: 'What is your email address?',
-                    subText: 'Enter your professional email address.',
+                    subText: 'Enter your professional email address (Gmail, Outlook, or Yahoo recommended).',
                     options: [
                         { value: 'email', label: 'Email Address', icon: '✏️' }
                     ],
                     allowOther: true,
-                    otherPlaceholder: 'your.email@example.com',
+                    otherPlaceholder: 'yourname@gmail.com',
                     isTextInput: true
                 },
                 {
                     id: 'phone',
                     icon: '📱',
                     question: 'What is your phone number?',
-                    subText: 'Enter your phone number with country code.',
+                    subText: 'Enter your 10-digit phone number (without country code).',
                     options: [
                         { value: 'phone', label: 'Phone Number', icon: '✏️' }
                     ],
                     allowOther: true,
-                    otherPlaceholder: '+91 98765 43210',
+                    otherPlaceholder: '9876543210',
                     isTextInput: true
                 },
                 {
@@ -2089,7 +2089,7 @@
                     id: 'certifications',
                     icon: '🎓',
                     question: 'University & Certifications',
-                    subText: 'Enter your university name and/or add certifications with proof.',
+                    subText: 'Enter your university name and/or add certifications with proof (optional).',
                     options: [
                         { value: 'university', label: 'University / Institution Name', icon: '✏️' }
                     ],
@@ -2185,18 +2185,18 @@
 
             // ===== CV DATA STORE (for text editing) =====
             let cvData = {
-                name: 'Anika Kumar',
-                role: 'Professional',
-                email: 'anika@example.com',
-                phone: '+91 11 5555 5555',
-                address: 'New Delhi, India 110001',
-                pincode: '',
-                portfolio: '',
-                summary: '',
-                skills: '',
-                experience: '',
-                education: '',
-                certifications: ''
+                name: 'Muhammed Zayin',
+                role: 'Full Stack Developer',
+                email: 'muhammed@example.com',
+                phone: '+91 98765 43210',
+                address: 'Kerala, India',
+                pincode: '682001',
+                portfolio: 'https://muhammedzayin.dev',
+                summary: 'Passionate Full Stack Developer with expertise in building modern web applications. Skilled in React, Node.js, and cloud technologies.',
+                skills: 'React, Node.js, JavaScript, Python, AWS, Docker, MongoDB, PostgreSQL',
+                experience: '• Senior Full Stack Developer at TechCorp (2022-Present)\n• Led development of 15+ web applications\n• Implemented CI/CD pipelines reducing deployment time by 40%\n• Mentored 5 junior developers',
+                education: 'Bachelor of Technology in Computer Science · Kerala University (2018-2022)',
+                certifications: '• AWS Certified Developer\n• Google Cloud Professional\n• MongoDB Certified Developer'
             };
 
             // ===== STATE =====
@@ -2365,6 +2365,19 @@
                 let optionsHTML = '';
                 let gridClass = q.options.length > 4 ? '' : 'single-col';
 
+                // ===== OPTIONAL BADGE =====
+                let optionalBadge = q.optional ? '<span style="font-size:0.7rem;color:var(--text-muted);font-weight:400;margin-left:8px;">(Optional)</span>' : '';
+
+                // ===== SKIP BUTTON =====
+                let skipButtonHTML = '';
+                if (q.optional) {
+                    skipButtonHTML = `
+                        <button class="skip-btn" onclick="skipQuestion('${q.id}')" style="margin-top:10px;padding:10px 20px;background:transparent;border:2px solid var(--border);border-radius:30px;color:var(--text-muted);font-size:0.85rem;font-weight:500;cursor:pointer;transition:var(--transition);font-family:inherit;width:100%;">
+                            <i class="fas fa-forward"></i> Skip Question
+                        </button>
+                    `;
+                }
+
                 // ===== CHECK IF THIS IS A TEXT INPUT QUESTION =====
                 if (q.isTextInput) {
                     // Show a text input instead of options
@@ -2458,27 +2471,17 @@
                     `;
                 }
 
-                // Add skip button for optional questions
-let skipButtonHTML = '';
-if (q.optional) {
-    skipButtonHTML = `
-        <button class="skip-btn" onclick="skipQuestion('${q.id}')" style="margin-top:10px;padding:8px 20px;background:transparent;border:2px solid var(--border);border-radius:30px;color:var(--text-muted);font-size:0.85rem;font-weight:500;cursor:pointer;transition:var(--transition);font-family:inherit;width:100%;">
-            <i class="fas fa-forward"></i> Skip Question
-        </button>
-    `;
-}
-
-questionArea.innerHTML = `
-    <span class="q-icon">${q.icon}</span>
-    <h3>${q.question} ${optionalBadge}</h3>
-    <p class="sub-text">${q.subText}</p>
-    <div class="options-grid ${gridClass}">
-        ${optionsHTML}
-    </div>
-    ${otherHTML}
-    ${certHTML}
-    ${skipButtonHTML}
-`;
+                questionArea.innerHTML = `
+                    <span class="q-icon">${q.icon}</span>
+                    <h3>${q.question} ${optionalBadge}</h3>
+                    <p class="sub-text">${q.subText}</p>
+                    <div class="options-grid ${gridClass}">
+                        ${optionsHTML}
+                    </div>
+                    ${otherHTML}
+                    ${certHTML}
+                    ${skipButtonHTML}
+                `;
 
                 if (q.allowCertUpload && certifications.length > 0) {
                     const list = document.getElementById('certList');
@@ -2500,6 +2503,23 @@ questionArea.innerHTML = `
                 updateNavButtons(step);
                 questionArea.classList.remove('hidden');
             }
+
+            // ===== SKIP OPTIONAL QUESTION =====
+            window.skipQuestion = function (questionId) {
+                // Mark as skipped
+                answers[questionId] = 'skipped';
+                answers[questionId + '_other'] = '';
+
+                // Move to next question
+                if (currentStep < questions.length - 1) {
+                    currentStep++;
+                    renderQuestion(currentStep);
+                } else {
+                    generateCV();
+                }
+
+                showToast('⏭️ Skipped');
+            };
 
             // ===== QUICK ADD CERT =====
             window.quickAddCert = function (name) {
@@ -2661,16 +2681,17 @@ questionArea.innerHTML = `
 
                 // Skip optional questions
                 if (currentQ.optional) {
-                    if (currentStep < questions.length - 1) {
-                        currentStep++;
-                        renderQuestion(currentStep);
-                    } else {
-                        generateCV();
+                    // If no answer, just proceed
+                    if (!answers[currentQ.id] || answers[currentQ.id] === '' || answers[currentQ.id] === 'skipped') {
+                        if (currentStep < questions.length - 1) {
+                            currentStep++;
+                            renderQuestion(currentStep);
+                        } else {
+                            generateCV();
+                        }
+                        return;
                     }
-                    return;
                 }
-            
-                
 
                 // ===== EMAIL VALIDATION =====
                 if (currentQ.id === 'email') {
@@ -2749,6 +2770,7 @@ questionArea.innerHTML = `
                     generateCV();
                 }
             };
+
             window.goBack = function () {
                 if (currentStep > 0) {
                     currentStep--;
@@ -2819,17 +2841,17 @@ questionArea.innerHTML = `
                 const template = templates.find(t => t.id === selectedTemplate) || templates.find(t => t.id === answers.template) || templates[0];
 
                 // ===== PERSONAL INFO =====
-                const fullName = answers.fullName_other || 'Anika Kumar';
-                const email = answers.email_other || 'anika@example.com';
-                const phone = answers.phone_other || '+91 11 5555 5555';
-                const address = answers.address_other || 'New Delhi, India 110001';
-                const pincode = answers.pincode_other || '';
-                const portfolio = answers.portfolio_other || '';
+                const fullName = answers.fullName_other || 'Muhammed Zayin';
+                const email = answers.email_other || 'muhammed@example.com';
+                const phone = answers.phone_other || '+91 98765 43210';
+                const address = answers.address_other || 'Kerala, India';
+                const pincode = answers.pincode_other || '682001';
+                const portfolio = answers.portfolio_other || 'https://muhammedzayin.dev';
 
-                const role = answers.role === 'other' ? answers.role_other : answers.role || 'Professional';
+                const role = answers.role === 'other' ? answers.role_other : answers.role || 'Full Stack Developer';
                 const experience = answers.experience || 'mid';
                 const goals = answers.goals === 'other' ? answers.goals_other : answers.goals || 'advance';
-                const skills = Array.isArray(answers.skills) ? answers.skills : [answers.skills || 'soft'];
+                const skills = Array.isArray(answers.skills) ? answers.skills : [answers.skills || 'technical'];
                 const education = answers.education === 'other' ? answers.education_other : answers.education || 'bachelors';
                 const languages = Array.isArray(answers.languages) ? answers.languages : [answers.languages || 'english'];
 
@@ -2844,7 +2866,7 @@ questionArea.innerHTML = `
                 const eduTexts = {
                     'highschool': 'High School Diploma (Expected 2025)',
                     'associate': 'Associate Degree in [Field]',
-                    'bachelors': 'Bachelor of Science in [Field]',
+                    'bachelors': 'Bachelor of Technology in Computer Science',
                     'masters': 'Master of Science in [Field]',
                     'phd': 'Ph.D. in [Field]',
                     'professional': 'Professional Certification in [Field]',
@@ -2853,7 +2875,7 @@ questionArea.innerHTML = `
 
                 const skillMap = {
                     'leadership': 'Leadership, Team Management, Strategic Planning, Communication',
-                    'technical': 'Programming, System Architecture, Data Analysis, Cloud Computing',
+                    'technical': 'React, Node.js, JavaScript, Python, AWS, Docker, MongoDB, PostgreSQL',
                     'creative': 'Creative Design, UI/UX, Adobe Creative Suite, Branding',
                     'analytical': 'Data Analysis, Research, Problem Solving, Critical Thinking',
                     'soft': 'Communication, Collaboration, Adaptability, Problem Solving'
@@ -2882,7 +2904,7 @@ questionArea.innerHTML = `
                 };
 
                 const summary = cvData.summary ||
-                    `Professional ${role} with ${experience} level experience. Passionate about ${skills.map(s => skillMap[s] || s).join(', ')}. Dedicated to ${goalTexts[goals] || 'achieve your career goals'}. Known for delivering high-quality results.`;
+                    `Full Stack Developer with ${experience} level experience. Passionate about ${skills.map(s => skillMap[s] || s).join(', ')}. Dedicated to ${goalTexts[goals] || 'achieve your career goals'}. Known for delivering high-quality results.`;
 
                 return {
                     template: template,
@@ -2891,14 +2913,13 @@ questionArea.innerHTML = `
                     phone: phone,
                     address: address,
                     pincode: pincode,
-                    linkedin: linkedin,
                     portfolio: portfolio,
                     role: role,
                     summary: summary,
-                    education: cvData.education || eduTexts[education] || 'Bachelor of Science',
+                    education: cvData.education || eduTexts[education] || 'Bachelor of Technology',
                     experience: cvData.experience || expTexts[experience] || expTexts.mid,
                     skills: cvData.skills || skills.map(s => skillMap[s] || s).join(', '),
-                    certifications: cvData.certifications || (certifications.length > 0 ? certifications.map(c => `• ${c.name}`).join('\n') : '• Professional certifications in progress'),
+                    certifications: cvData.certifications || (certifications.length > 0 ? certifications.map(c => `• ${c.name}`).join('\n') : '• AWS Certified Developer\n• Google Cloud Professional'),
                     languages: cvData.languages || languages.map(l => langMap[l] || l).join(', '),
                     certificationsList: certifications
                 };
@@ -3319,7 +3340,7 @@ questionArea.innerHTML = `
                 const element = document.getElementById('cv');
                 html2pdf().set({
                     margin: 0.5,
-                    filename: 'My_CV.pdf',
+                    filename: 'Muhammed_Zayin_CV.pdf',
                     image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: { scale: 2 },
                     jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
@@ -3357,7 +3378,7 @@ questionArea.innerHTML = `
                 const blob = new Blob([content], { type: 'application/msword' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = 'My_CV.doc';
+                link.download = 'Muhammed_Zayin_CV.doc';
                 link.click();
                 URL.revokeObjectURL(link.href);
                 showToast('DOCX downloaded!');
@@ -3372,14 +3393,13 @@ questionArea.innerHTML = `
                     selectedTemplate = null;
                     photoDataURL = null;
                     cvData = {
-                        name: 'Anika Kumar',
-                        role: 'Professional',
-                        email: 'anika@example.com',
-                        phone: '+91 11 5555 5555',
-                        address: 'New Delhi, India 110001',
-                        pincode: '110001',
-                        linkedin: '',
-                        portfolio: '',
+                        name: 'Muhammed Zayin',
+                        role: 'Full Stack Developer',
+                        email: 'muhammed@example.com',
+                        phone: '+91 98765 43210',
+                        address: 'Kerala, India',
+                        pincode: '682001',
+                        portfolio: 'https://muhammedzayin.dev',
                         summary: '',
                         skills: '',
                         experience: '',
