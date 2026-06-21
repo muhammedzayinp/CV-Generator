@@ -1,1 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ultimate CV · Get Hired Faster</title>
+    <meta name="description" content="Build a professional CV with 50+ templates, ATS optimization, and AI-powered guidance. Free and easy to use." />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --primary-light: #e8f0fe;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --text: #202124;
+            --text-muted: #5f6368;
+            --border: #dadce0;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ===== ANIMATED BACKGROUND ===== */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 20% 50%, rgba(26, 115, 232, 0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(108, 43, 217, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(26, 115, 232, 0.03) 0%, transparent 50%);
+            z-index: -1;
+            animation: bgPulse 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), #6c2bd9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo .badge {
+            background: var(--primary);
+            color: white;
+            font-size: 0.6rem;
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .header-actions .btn-outline {
+            padding: 8px 20px;
+            border: 2px solid var(--border);
+            border-radius: 30px;
+            background: transparent;
+            color: var(--text);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-actions .btn-outline:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .header-actions .btn-primary {
+            padding: 8px 24px;
+            border: none;
+            border-radius: 30px;
+            background: var(--primary);
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header-actions .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(26, 115, 232, 0.3);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 24px 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+        }
+
+        .hero-content {
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 4px 16px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .hero h2 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .hero h2 .highlight {
+            background: linear-gradient(135deg, var(--primary), #6c2bd9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 32px;
+            max-width: 500px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .hero-cta .btn-main {
+            padding: 16px 36px;
+            border: none;
+            border-radius: 50px;
+            background: var(--primary);
+            color: white;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 32px rgba(26, 115, 232, 0.3);
+        }
+
+        .hero-cta .btn-main:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(26, 115, 232, 0.4);
+        }
+
+        .hero-cta .btn-secondary {
+            padding: 16px 32px;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            background: transparent;
+            color: var(--text);
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-cta .btn-secondary:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: translateY(-3px);
+        }
+
+        .trust-badges {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .trust-badges .badge-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .trust-badges .badge-item i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        /* ===== HERO IMAGE ===== */
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-image .preview-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 32px 28px;
+            width: 100%;
+            max-width: 420px;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .hero-image .preview-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .preview-card .card-header .dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .preview-card .card-header .dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .preview-card .card-header .dots span:nth-child(1) {
+            background: #ff6b6b;
+        }
+        .preview-card .card-header .dots span:nth-child(2) {
+            background: #feca57;
+        }
+        .preview-card .card-header .dots span:nth-child(3) {
+            background: #1dd1a1;
+        }
+
+        .preview-card .card-header .badge-preview {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 30px;
+        }
+
+        .preview-card .cv-mini {
+            text-align: center;
+        }
+
+        .preview-card .cv-mini .mini-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .preview-card .cv-mini .mini-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .preview-card .cv-mini .mini-divider {
+            width: 40px;
+            height: 2px;
+            background: var(--primary);
+            margin: 8px auto;
+            border-radius: 20px;
+        }
+
+        .preview-card .cv-mini .mini-section {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-align: left;
+            padding: 4px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .preview-card .cv-mini .mini-section:last-child {
+            border-bottom: none;
+        }
+
+        .preview-card .cv-mini .mini-section .label {
+            font-weight: 600;
+            color: var(--text);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .preview-card .cv-mini .mini-section .value {
+            display: block;
+            font-size: 0.6rem;
+        }
+
+        .preview-card .floating-badge {
+            position: absolute;
+            background: var(--card-bg);
+            border-radius: 30px;
+            padding: 8px 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .preview-card .floating-badge.top-right {
+            top: -12px;
+            right: -12px;
+            background: #fef3c7;
+            color: #92400e;
+            animation-delay: 0.5s;
+        }
+
+        .preview-card .floating-badge.bottom-left {
+            bottom: -12px;
+            left: -12px;
+            background: #d1fae5;
+            color: #065f46;
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* ===== AUTH SECTION ===== */
+        .auth-section {
+            margin-top: 16px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .auth-section .auth-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .auth-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .auth-options .btn-google {
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .auth-options .btn-google:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .auth-options .btn-google i {
+            font-size: 1.1rem;
+        }
+
+        .auth-options .btn-guest {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            background: var(--bg);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .auth-options .btn-guest:hover {
+            background: var(--border);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        .features-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .features-title span {
+            background: linear-gradient(135deg, var(--primary), #6c2bd9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+            border-color: var(--primary);
+        }
+
+        .feature-card .icon {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .feature-card h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .feature-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .footer .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .footer .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+                padding: 40px 20px;
+            }
+
+            .hero p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .trust-badges {
+                justify-content: center;
+            }
+
+            .auth-options {
+                justify-content: center;
+            }
+
+            .hero h2 {
+                font-size: 2.6rem;
+            }
+
+            .hero-image .preview-card {
+                max-width: 340px;
+                margin: 0 auto;
+            }
+
+            .preview-card .floating-badge {
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header {
+                padding: 14px 16px;
+                flex-direction: column;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .hero {
+                padding: 30px 16px;
+                min-height: auto;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-cta .btn-main {
+                padding: 14px 28px;
+                font-size: 0.95rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-cta .btn-secondary {
+                padding: 14px 24px;
+                font-size: 0.95rem;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .auth-options {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .auth-options .btn-google,
+            .auth-options .btn-guest {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .trust-badges {
+                gap: 12px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .preview-card {
+                padding: 20px 16px;
+            }
+
+            .features-title {
+                font-size: 1.5rem;
+            }
+
+            .footer .footer-links {
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .hero h2 {
+                font-size: 1.6rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .logo h1 {
+                font-size: 1.2rem;
+            }
+
+            .header-actions .btn-outline,
+            .header-actions .btn-primary {
+                padding: 6px 14px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== BACKGROUND ===== -->
+    <div class="bg-gradient"></div>
+
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <a href="/" class="logo">
+            <h1>Ultimate CV</h1>
+            <span class="badge">Pro</span>
+        </a>
+        <div class="header-actions">
+            <a href="/app.html" class="btn-outline">
+                <i class="fas fa-file-alt"></i> My CV
+            </a>
+            <a href="/app.html" class="btn-primary">
+                <i class="fas fa-plus"></i> New CV
+            </a>
+        </div>
+    </header>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">
+                <i class="fas fa-sparkles"></i> AI-Powered
+            </span>
+            <h2>
+                The CV that<br>
+                <span class="highlight">gets you hired</span>
+            </h2>
+            <p>
+                Build a professional CV in minutes with AI-powered guidance,
+                50+ templates, and real-time ATS optimization.
+            </p>
+
+            <div class="hero-cta">
+                <a href="/app.html" class="btn-main">
+                    <i class="fas fa-rocket"></i> Create Your CV Now
+                </a>
+                <a href="#features" class="btn-secondary">
+                    <i class="fas fa-eye"></i> View Templates
+                </a>
+            </div>
+
+            <div class="trust-badges">
+                <span class="badge-item">
+                    <i class="fas fa-check-circle"></i> 50+ Templates
+                </span>
+                <span class="badge-item">
+                    <i class="fas fa-chart-line"></i> ATS Optimized
+                </span>
+                <span class="badge-item">
+                    <i class="fas fa-robot"></i> AI-Powered
+                </span>
+                <span class="badge-item">
+                    <i class="fas fa-gem"></i> 100% Free
+                </span>
+            </div>
+
+            <!-- Auth Section -->
+            <div class="auth-section">
+                <span class="auth-label">Get started — no credit card required</span>
+                <div class="auth-options">
+                    <a href="#" class="btn-google" onclick="showToast('Google Sign-In coming soon!')">
+                        <i class="fab fa-google"></i> Sign in with Google
+                    </a>
+                    <a href="/app.html" class="btn-guest">
+                        <i class="fas fa-user"></i> Continue as Guest
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Image / Preview Card -->
+        <div class="hero-image">
+            <div class="preview-card">
+                <div class="floating-badge top-right">
+                    <i class="fas fa-star" style="color:#f59e0b;"></i> 4.9/5
+                </div>
+                <div class="floating-badge bottom-left">
+                    <i class="fas fa-check-circle" style="color:#10b981;"></i> ATS Score 85%
+                </div>
+
+                <div class="card-header">
+                    <div class="dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <span class="badge-preview">🎯 Perfect Match</span>
+                </div>
+
+                <div class="cv-mini">
+                    <div class="mini-name">Muhammed Zayin</div>
+                    <div class="mini-title">Full Stack Developer</div>
+                    <div class="mini-divider"></div>
+
+                    <div class="mini-section">
+                        <span class="label">📝 Summary</span>
+                        <span class="value">Passionate developer with 6+ years of experience...</span>
+                    </div>
+                    <div class="mini-section">
+                        <span class="label">🛠️ Skills</span>
+                        <span class="value">React, Node.js, Python, AWS, Docker</span>
+                    </div>
+                    <div class="mini-section">
+                        <span class="label">💼 Experience</span>
+                        <span class="value">Senior Developer at TechCorp (2022-Present)</span>
+                    </div>
+                    <div class="mini-section">
+                        <span class="label">🎓 Education</span>
+                        <span class="value">B.Tech in Computer Science · Kerala University</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <section class="features" id="features">
+        <h2 class="features-title">
+            Why choose <span>Ultimate CV</span>?
+        </h2>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="icon">🎨</span>
+                <h4>50+ Templates</h4>
+                <p>Choose from 50+ professionally designed templates for every industry.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">📊</span>
+                <h4>ATS Optimized</h4>
+                <p>Get real-time ATS scoring and keyword suggestions to pass automated screening.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">🤖</span>
+                <h4>AI-Powered</h4>
+                <p>Smart suggestions, grammar checking, and content improvements powered by AI.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">✏️</span>
+                <h4>Full Customization</h4>
+                <p>Edit everything — colors, fonts, layout, sections, and more with drag & drop.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">📄</span>
+                <h4>Export Anywhere</h4>
+                <p>Download as PDF, DOCX, or share with a single link. Works everywhere.</p>
+            </div>
+            <div class="feature-card">
+                <span class="icon">🔒</span>
+                <h4>Privacy First</h4>
+                <p>Your data stays on your device. No servers, no tracking, no hidden costs.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="/app.html">CV Builder</a>
+            <a href="#" onclick="showToast('Privacy policy coming soon!')">Privacy Policy</a>
+            <a href="#" onclick="showToast('Contact: support@ultimatecv.com')">Contact</a>
+            <a href="#" onclick="showToast('Built with ❤️ by Muhammed Zayin')">About</a>
+        </div>
+        <p>&copy; 2026 Ultimate CV · Built with ❤️ by Muhammed Zayin</p>
+    </footer>
+
+    <!-- ===== TOAST ===== -->
+    <div id="toast" style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--card-bg);color:var(--text);padding:12px 24px;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.15);font-size:0.9rem;font-weight:500;z-index:999;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);opacity:0;pointer-events:none;border-left:4px solid var(--primary);max-width:90%;">
+        <span id="toastMessage">Message</span>
+    </div>
+
+    <script>
+        // ===== TOAST FUNCTION =====
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            toastMessage.textContent = message;
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(-50%) translateY(0)';
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(100px)';
+            }, 3000);
+        }
+
+        // ===== SMOOTH SCROLL =====
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        console.log('🚀 Ultimate CV Landing Page loaded!');
+        console.log('📝 Click "Create Your CV Now" to start building.');
+    </script>
+
+</body>
+</html>
