@@ -1048,7 +1048,6 @@
         }
 
         /* ===== EDITOR PANEL ===== */
-        /* ===== EDITOR TOGGLE BUTTON ===== */
         .editor-toggle {
             position: fixed;
             bottom: 24px;
@@ -1074,13 +1073,11 @@
             box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
         }
 
-        /* Dark theme support */
         body.dark-theme .editor-toggle {
             border-color: var(--bg);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
         }
 
-        /* Mobile responsive */
         @media (max-width: 640px) {
             .editor-toggle {
                 width: 52px;
@@ -1861,7 +1858,9 @@
     </button>
 
     <script>
+        // ============================================================
         // ===== COMPLETE JAVASCRIPT =====
+        // ============================================================
         (function () {
             "use strict";
 
@@ -1924,267 +1923,30 @@
                 { id: 'startup', name: 'Startup Founder', category: 'specialized', colors: ['#FF6B35', '#1A1A2E', '#FFFFFF'], font: 'Inter', layout: '2-column', bestFor: 'Startups, Founders', rating: 4.8, popular: true, preview: { name: 'Anika Kumar', title: 'Startup Founder', bg: '#1A1A2E', text: '#FFFFFF', accent: '#FF6B35' } }
             ];
 
-            // ===== QUESTIONS WITH UPDATED ICONS AND PERSONAL INFO =====
+            // ===== QUESTIONS =====
             const questions = [
-                // ===== PERSONAL INFORMATION (NEW - FIRST 7 QUESTIONS) =====
-                {
-                    id: 'fullName',
-                    icon: '👤',
-                    question: 'What is your full name?',
-                    subText: 'Enter your full name as you want it to appear on your CV.',
-                    options: [
-                        { value: 'name', label: 'Full Name', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'Enter your full name...',
-                    isTextInput: true
-                },
-                {
-                    id: 'email',
-                    icon: '📧',
-                    question: 'What is your email address?',
-                    subText: 'Enter your professional email address.',
-                    options: [
-                        { value: 'email', label: 'Email Address', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'your.email@example.com',
-                    isTextInput: true
-                },
-                {
-                    id: 'phone',
-                    icon: '📱',
-                    question: 'What is your phone number?',
-                    subText: 'Enter your phone number with country code.',
-                    options: [
-                        { value: 'phone', label: 'Phone Number', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: '+91 98765 43210',
-                    isTextInput: true
-                },
-                {
-                    id: 'address',
-                    icon: '📍',
-                    question: 'What is your address / location?',
-                    subText: 'Enter your city, state, and country.',
-                    options: [
-                        { value: 'address', label: 'Address / Location', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'City, State, Country',
-                    isTextInput: true
-                },
+                // Personal Information
+                { id: 'fullName', icon: '👤', question: 'What is your full name?', subText: 'Enter your full name as you want it to appear on your CV.', options: [{ value: 'name', label: 'Full Name', icon: '✏️' }], allowOther: true, otherPlaceholder: 'Enter your full name...', isTextInput: true },
+                { id: 'email', icon: '📧', question: 'What is your email address?', subText: 'Enter your professional email address.', options: [{ value: 'email', label: 'Email Address', icon: '✏️' }], allowOther: true, otherPlaceholder: 'your.email@example.com', isTextInput: true },
+                { id: 'phone', icon: '📱', question: 'What is your phone number?', subText: 'Enter your phone number with country code.', options: [{ value: 'phone', label: 'Phone Number', icon: '✏️' }], allowOther: true, otherPlaceholder: '+91 98765 43210', isTextInput: true },
+                { id: 'address', icon: '📍', question: 'What is your address / location?', subText: 'Enter your city, state, and country.', options: [{ value: 'address', label: 'Address / Location', icon: '✏️' }], allowOther: true, otherPlaceholder: 'City, State, Country', isTextInput: true },
+                { id: 'pincode', icon: '📮', question: 'What is your pincode / zip code?', subText: 'Enter your postal code (optional).', options: [{ value: 'pincode', label: 'Pincode / Zip Code', icon: '✏️' }], allowOther: true, otherPlaceholder: 'Enter your pincode...', isTextInput: true, optional: true },
+                { id: 'portfolio', icon: '🌐', question: 'What is your portfolio website?', subText: 'Enter your portfolio or personal website URL (optional).', options: [{ value: 'portfolio', label: 'Portfolio / Website', icon: '✏️' }], allowOther: true, otherPlaceholder: 'https://yourportfolio.com', isTextInput: true, optional: true },
+                // Experience & Career
+                { id: 'experience', icon: '📈', question: 'Experience level?', subText: 'How many years of professional experience?', options: [{ value: 'entry', label: 'Entry Level', icon: '🎯', desc: 'Starting your career (0-2 years)' }, { value: 'junior', label: 'Junior Level', icon: '📈', desc: 'Building experience (2-4 years)' }, { value: 'mid', label: 'Mid Level', icon: '⭐', desc: 'Proven professional (4-8 years)' }, { value: 'senior', label: 'Senior Level', icon: '👑', desc: 'Expert leader (8-15 years)' }, { value: 'executive', label: 'Executive Level', icon: '🏆', desc: 'Top leadership (15+ years)' }], allowOther: false },
+                { id: 'role', icon: '👔', question: 'Your primary role?', subText: 'What is your current or target job title?', options: [{ value: 'developer', label: 'Developer/Engineer', icon: '💻' }, { value: 'designer', label: 'Designer/Creative', icon: '🎨' }, { value: 'manager', label: 'Manager/Leader', icon: '👔' }, { value: 'analyst', label: 'Analyst/Researcher', icon: '📊' }, { value: 'consultant', label: 'Consultant/Advisor', icon: '💼' }, { value: 'executive', label: 'Executive/Director', icon: '🏢' }, { value: 'educator', label: 'Educator/Trainer', icon: '📚' }, { value: 'healthcare', label: 'Healthcare Pro', icon: '🏥' }, { value: 'legal', label: 'Legal Pro', icon: '⚖️' }, { value: 'sales', label: 'Sales/Business Dev', icon: '🤝' }, { value: 'other', label: '✏️ Other (Specify)', icon: '✏️' }], allowOther: true, otherPlaceholder: 'Enter your job title...' },
+                { id: 'goals', icon: '🚀', question: 'Your career goals?', subText: 'Select your primary career objective.', options: [{ value: 'advance', label: 'Advance in Field', icon: '🎯', desc: 'Career progression' }, { value: 'switch', label: 'Switch Industries', icon: '🔄', desc: 'New direction' }, { value: 'start', label: 'Start a Business', icon: '🚀', desc: 'Entrepreneurship' }, { value: 'consult', label: 'Become Consultant', icon: '💎', desc: 'Advisory role' }, { value: 'freelance', label: 'Go Freelance', icon: '🌟', desc: 'Independent' }, { value: 'learn', label: 'Learn New Skills', icon: '📚', desc: 'Continuous learning' }, { value: 'other', label: '✏️ Other', icon: '✏️' }], allowOther: true, otherPlaceholder: 'Enter your career goal...' },
+                { id: 'skills', icon: '🛠️', question: 'Skills to highlight?', subText: 'Select your primary skill areas (multi-select).', options: [{ value: 'leadership', label: 'Leadership', icon: '👔' }, { value: 'technical', label: 'Technical', icon: '💻' }, { value: 'creative', label: 'Creative', icon: '🎨' }, { value: 'analytical', label: 'Analytical', icon: '📊' }, { value: 'soft', label: 'Soft Skills', icon: '🤝' }, { value: 'other', label: '✏️ Other (Specify)', icon: '✏️' }], allowOther: true, otherPlaceholder: 'Enter your skill...', multiSelect: true },
+                { id: 'education', icon: '🎓', question: 'Highest education?', subText: 'Select the highest degree you have completed.', options: [{ value: 'highschool', label: 'High School', icon: '🎓' }, { value: 'associate', label: 'Associate Degree', icon: '📖' }, { value: 'bachelors', label: 'Bachelor\'s', icon: '🏛️' }, { value: 'masters', label: 'Master\'s', icon: '🎓' }, { value: 'phd', label: 'PhD/Doctorate', icon: '🔬' }, { value: 'professional', label: 'Professional Cert', icon: '📜' }, { value: 'trade', label: 'Trade School / Vocational', icon: '🔧' }, { value: 'other', label: '✏️ Other', icon: '✏️' }], allowOther: true, otherPlaceholder: 'Enter your education...' },
+                { id: 'certifications', icon: '🎓', question: 'University & Certifications', subText: 'Enter your university name and/or add certifications with proof.', options: [{ value: 'university', label: 'University / Institution Name', icon: '✏️' }], allowOther: true, otherPlaceholder: 'Enter your university/institution name...', allowCertUpload: true, isTextInput: true, optional: true },
+                { id: 'languages', icon: '🌐', question: 'Languages spoken?', subText: 'Select all languages you are proficient in.', options: [{ value: 'english', label: 'English', icon: '🇬🇧' }, { value: 'spanish', label: 'Spanish', icon: '🇪🇸' }, { value: 'french', label: 'French', icon: '🇫🇷' }, { value: 'german', label: 'German', icon: '🇩🇪' }, { value: 'chinese', label: 'Chinese', icon: '🇨🇳' }, { value: 'japanese', label: 'Japanese', icon: '🇯🇵' }, { value: 'arabic', label: 'Arabic', icon: '🇸🇦' }, { value: 'russian', label: 'Russian', icon: '🇷🇺' }, { value: 'portuguese', label: 'Portuguese', icon: '🇵🇹' }, { value: 'hindi', label: 'Hindi', icon: '🇮🇳' }, { value: 'other', label: '✏️ Other', icon: '✏️' }], allowOther: true, otherPlaceholder: 'Enter language...', multiSelect: true },
+                { id: 'work_style', icon: '💼', question: 'Preferred work style?', subText: 'How do you prefer to work?', options: [{ value: 'remote', label: 'Remote', icon: '🏠' }, { value: 'hybrid', label: 'Hybrid', icon: '🏢' }, { value: 'onsite', label: 'On-site', icon: '🏢' }, { value: 'freelance', label: 'Freelance', icon: '💪' }, { value: 'contract', label: 'Contract', icon: '📄' }, { value: 'other', label: '✏️ Other', icon: '✏️' }], allowOther: true, otherPlaceholder: 'Enter your work style...' },
+                { id: 'salary', icon: '💰', question: 'Salary expectation?', subText: 'Select your expected salary range (optional).', options: [{ value: '30-50k', label: '$30k - $50k', icon: '💵' }, { value: '50-80k', label: '$50k - $80k', icon: '💰' }, { value: '80-120k', label: '$80k - $120k', icon: '💎' }, { value: '120-180k', label: '$120k - $180k', icon: '🌟' }, { value: '180k+', label: '$180k+', icon: '🚀' }, { value: 'other', label: '✏️ Other', icon: '✏️' }], allowOther: true, otherPlaceholder: 'Enter expected salary...' },
+                { id: 'availability', icon: '⏰', question: 'Availability?', subText: 'When can you start?', options: [{ value: 'immediate', label: 'Immediate', icon: '⚡' }, { value: 'two-weeks', label: '2 Weeks Notice', icon: '📅' }, { value: 'one-month', label: '1 Month Notice', icon: '📆' }, { value: 'three-months', label: '3 Months Notice', icon: '🗓️' }, { value: 'negotiable', label: 'Negotiable', icon: '🤝' }, { value: 'other', label: '✏️ Other', icon: '✏️' }], allowOther: true, otherPlaceholder: 'Enter your availability...' },
+                { id: 'support', icon: '🤝', question: 'Support needed?', subText: 'How can we help you achieve your goals?', options: [{ value: 'cv', label: 'CV/Resume Building', icon: '📝' }, { value: 'interview', label: 'Interview Prep', icon: '🎤' }, { value: 'career', label: 'Career Guidance', icon: '🧭' }, { value: 'skills', label: 'Skill Development', icon: '📚' }, { value: 'networking', label: 'Networking', icon: '🤝' }, { value: 'portfolio', label: 'Portfolio Building', icon: '🎯' }, { value: 'other', label: '✏️ Other', icon: '✏️' }], allowOther: true, otherPlaceholder: 'Enter your support need...' }
+            ];
 
-                {
-                    id: 'pincode',
-                    icon: '📮',
-                    question: 'What is your pincode / zip code?',
-                    subText: 'Enter your postal code (optional).',
-                    options: [
-                        { value: 'pincode', label: 'Pincode / Zip Code', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'Enter your pincode...',
-                    isTextInput: true,
-                    optional: true
-                },
-                {
-                    id: 'portfolio',
-                    icon: '🌐',
-                    question: 'What is your portfolio website?',
-                    subText: 'Enter your portfolio or personal website URL (optional).',
-                    options: [
-                        { value: 'portfolio', label: 'Portfolio / Website', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'https://yourportfolio.com',
-                    isTextInput: true,
-                    optional: true
-                },
-                // ===== EXPERIENCE & CAREER =====
-                {
-                    id: 'experience',
-                    icon: '📈',
-                    question: 'Experience level?',
-                    subText: 'How many years of professional experience?',
-                    options: [
-                        { value: 'entry', label: 'Entry Level', icon: '🎯', desc: 'Starting your career (0-2 years)' },
-                        { value: 'junior', label: 'Junior Level', icon: '📈', desc: 'Building experience (2-4 years)' },
-                        { value: 'mid', label: 'Mid Level', icon: '⭐', desc: 'Proven professional (4-8 years)' },
-                        { value: 'senior', label: 'Senior Level', icon: '👑', desc: 'Expert leader (8-15 years)' },
-                        { value: 'executive', label: 'Executive Level', icon: '🏆', desc: 'Top leadership (15+ years)' }
-                    ],
-                    allowOther: false
-                }, {
-                    id: 'role',
-                    icon: '👔',
-                    question: 'Your primary role?',
-                    subText: 'What is your current or target job title?',
-                    options: [
-                        { value: 'developer', label: 'Developer/Engineer', icon: '💻' },
-                        { value: 'designer', label: 'Designer/Creative', icon: '🎨' },
-                        { value: 'manager', label: 'Manager/Leader', icon: '👔' },
-                        { value: 'analyst', label: 'Analyst/Researcher', icon: '📊' },
-                        { value: 'consultant', label: 'Consultant/Advisor', icon: '💼' },
-                        { value: 'executive', label: 'Executive/Director', icon: '🏢' },
-                        { value: 'educator', label: 'Educator/Trainer', icon: '📚' },
-                        { value: 'healthcare', label: 'Healthcare Pro', icon: '🏥' },
-                        { value: 'legal', label: 'Legal Pro', icon: '⚖️' },
-                        { value: 'sales', label: 'Sales/Business Dev', icon: '🤝' },
-                        { value: 'other', label: '✏️ Other (Specify)', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'Enter your job title...'
-                }, {
-                    id: 'goals',
-                    icon: '🚀',
-                    question: 'Your career goals?',
-                    subText: 'Select your primary career objective.',
-                    options: [
-                        { value: 'advance', label: 'Advance in Field', icon: '🎯', desc: 'Career progression' },
-                        { value: 'switch', label: 'Switch Industries', icon: '🔄', desc: 'New direction' },
-                        { value: 'start', label: 'Start a Business', icon: '🚀', desc: 'Entrepreneurship' },
-                        { value: 'consult', label: 'Become Consultant', icon: '💎', desc: 'Advisory role' },
-                        { value: 'freelance', label: 'Go Freelance', icon: '🌟', desc: 'Independent' },
-                        { value: 'learn', label: 'Learn New Skills', icon: '📚', desc: 'Continuous learning' },
-                        { value: 'other', label: '✏️ Other', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'Enter your career goal...'
-                }, {
-                    id: 'skills',
-                    icon: '🛠️',
-                    question: 'Skills to highlight?',
-                    subText: 'Select your primary skill areas (multi-select).',
-                    options: [
-                        { value: 'leadership', label: 'Leadership', icon: '👔' },
-                        { value: 'technical', label: 'Technical', icon: '💻' },
-                        { value: 'creative', label: 'Creative', icon: '🎨' },
-                        { value: 'analytical', label: 'Analytical', icon: '📊' },
-                        { value: 'soft', label: 'Soft Skills', icon: '🤝' },
-                        { value: 'other', label: '✏️ Other (Specify)', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'Enter your skill...',
-                    multiSelect: true
-                }, {
-                    id: 'education',
-                    icon: '🎓',
-                    question: 'Highest education?',
-                    subText: 'Select the highest degree you have completed.',
-                    options: [
-                        { value: 'highschool', label: 'High School', icon: '🎓' },
-                        { value: 'associate', label: 'Associate Degree', icon: '📖' },
-                        { value: 'bachelors', label: 'Bachelor\'s', icon: '🏛️' },
-                        { value: 'masters', label: 'Master\'s', icon: '🎓' },
-                        { value: 'phd', label: 'PhD/Doctorate', icon: '🔬' },
-                        { value: 'professional', label: 'Professional Cert', icon: '📜' },
-                        { value: 'trade', label: 'Trade School / Vocational', icon: '🔧' },
-                        { value: 'other', label: '✏️ Other', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'Enter your education...'
-                },
-                {
-                    id: 'certifications',
-                    icon: '🎓',
-                    question: 'University & Certifications',
-                    subText: 'Enter your university name and/or add certifications with proof.',
-                    options: [
-                        { value: 'university', label: 'University / Institution Name', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'Enter your university/institution name...',
-                    allowCertUpload: true,
-                    isTextInput: true,
-                    optional: true
-                },
-                {
-                    id: 'languages',
-                    icon: '🌐',
-                    question: 'Languages spoken?',
-                    subText: 'Select all languages you are proficient in.',
-                    options: [
-                        { value: 'english', label: 'English', icon: '🇬🇧' },
-                        { value: 'spanish', label: 'Spanish', icon: '🇪🇸' },
-                        { value: 'french', label: 'French', icon: '🇫🇷' },
-                        { value: 'german', label: 'German', icon: '🇩🇪' },
-                        { value: 'chinese', label: 'Chinese', icon: '🇨🇳' },
-                        { value: 'japanese', label: 'Japanese', icon: '🇯🇵' },
-                        { value: 'arabic', label: 'Arabic', icon: '🇸🇦' },
-                        { value: 'russian', label: 'Russian', icon: '🇷🇺' },
-                        { value: 'portuguese', label: 'Portuguese', icon: '🇵🇹' },
-                        { value: 'hindi', label: 'Hindi', icon: '🇮🇳' },
-                        { value: 'other', label: '✏️ Other', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'Enter language...',
-                    multiSelect: true
-                }, {
-                    id: 'work_style',
-                    icon: '💼',
-                    question: 'Preferred work style?',
-                    subText: 'How do you prefer to work?',
-                    options: [
-                        { value: 'remote', label: 'Remote', icon: '🏠' },
-                        { value: 'hybrid', label: 'Hybrid', icon: '🏢' },
-                        { value: 'onsite', label: 'On-site', icon: '🏢' },
-                        { value: 'freelance', label: 'Freelance', icon: '💪' },
-                        { value: 'contract', label: 'Contract', icon: '📄' },
-                        { value: 'other', label: '✏️ Other', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'Enter your work style...'
-                }, {
-                    id: 'salary',
-                    icon: '💰',
-                    question: 'Salary expectation?',
-                    subText: 'Select your expected salary range (optional).',
-                    options: [
-                        { value: '30-50k', label: '$30k - $50k', icon: '💵' },
-                        { value: '50-80k', label: '$50k - $80k', icon: '💰' },
-                        { value: '80-120k', label: '$80k - $120k', icon: '💎' },
-                        { value: '120-180k', label: '$120k - $180k', icon: '🌟' },
-                        { value: '180k+', label: '$180k+', icon: '🚀' },
-                        { value: 'other', label: '✏️ Other', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'Enter expected salary...'
-                }, {
-                    id: 'availability',
-                    icon: '⏰',
-                    question: 'Availability?',
-                    subText: 'When can you start?',
-                    options: [
-                        { value: 'immediate', label: 'Immediate', icon: '⚡' },
-                        { value: 'two-weeks', label: '2 Weeks Notice', icon: '📅' },
-                        { value: 'one-month', label: '1 Month Notice', icon: '📆' },
-                        { value: 'three-months', label: '3 Months Notice', icon: '🗓️' },
-                        { value: 'negotiable', label: 'Negotiable', icon: '🤝' },
-                        { value: 'other', label: '✏️ Other', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'Enter your availability...'
-                }, {
-                    id: 'support',
-                    icon: '🤝',
-                    question: 'Support needed?',
-                    subText: 'How can we help you achieve your goals?',
-                    options: [
-                        { value: 'cv', label: 'CV/Resume Building', icon: '📝' },
-                        { value: 'interview', label: 'Interview Prep', icon: '🎤' },
-                        { value: 'career', label: 'Career Guidance', icon: '🧭' },
-                        { value: 'skills', label: 'Skill Development', icon: '📚' },
-                        { value: 'networking', label: 'Networking', icon: '🤝' },
-                        { value: 'portfolio', label: 'Portfolio Building', icon: '🎯' },
-                        { value: 'other', label: '✏️ Other', icon: '✏️' }
-                    ],
-                    allowOther: true,
-                    otherPlaceholder: 'Enter your support need...'
-                }];
-
-            // ===== CV DATA STORE (for text editing) =====
+            // ===== CV DATA STORE =====
             let cvData = {
                 name: 'Anika Kumar',
                 role: 'Professional',
@@ -2355,7 +2117,7 @@
                 });
             }
 
-            // ===== RENDER QUESTION (FIXED WITH TEXT INPUT SUPPORT) =====
+            // ===== RENDER QUESTION =====
             function renderQuestion(step) {
                 const q = questions[step];
                 if (!q) return;
@@ -2366,9 +2128,7 @@
                 let optionsHTML = '';
                 let gridClass = q.options.length > 4 ? '' : 'single-col';
 
-                // ===== CHECK IF THIS IS A TEXT INPUT QUESTION =====
                 if (q.isTextInput) {
-                    // Show a text input instead of options
                     optionsHTML = `
                         <div class="other-input-container" style="margin-top:0;">
                             <input type="text" id="textInput_${q.id}" 
@@ -2380,7 +2140,6 @@
                     `;
                     gridClass = 'single-col';
                 } else {
-                    // ===== NORMAL OPTIONS (buttons) =====
                     q.options.forEach((opt, index) => {
                         const isSelected = answers[q.id] === opt.value ||
                             (Array.isArray(answers[q.id]) && answers[q.id].includes(opt.value));
@@ -2493,12 +2252,7 @@
 
             // ===== QUICK ADD CERT =====
             window.quickAddCert = function (name) {
-                certifications.push({
-                    name: name,
-                    fileName: 'Quick added',
-                    fileSize: '0 KB',
-                    file: null
-                });
+                certifications.push({ name: name, fileName: 'Quick added', fileSize: '0 KB', file: null });
                 const list = document.getElementById('certList');
                 if (list) {
                     list.innerHTML = certifications.map((cert, i) => `
@@ -2649,7 +2403,6 @@
             window.goNext = function () {
                 const currentQ = questions[currentStep];
 
-                // Skip optional questions
                 if (currentQ.optional) {
                     if (currentStep < questions.length - 1) {
                         currentStep++;
@@ -2660,36 +2413,32 @@
                     return;
                 }
 
-                // ===== EMAIL VALIDATION =====
                 if (currentQ.id === 'email') {
                     const emailValue = answers.email_other || '';
                     const validDomains = ['gmail.com', 'outlook.com', 'yahoo.com', 'hotmail.com', 'protonmail.com', 'icloud.com'];
                     const isValid = emailValue.includes('@') && validDomains.some(domain => emailValue.includes(domain));
 
                     if (!isValid) {
-                        showToast('❌ Please enter a valid email (e.g., name@gmail.com, name@outlook.com, name@yahoo.com)');
+                        showToast('❌ Please enter a valid email (e.g., name@gmail.com)');
                         return;
                     }
                 }
 
-                // ===== PHONE VALIDATION =====
                 if (currentQ.id === 'phone') {
                     const phoneValue = answers.phone_other || '';
                     const cleanPhone = phoneValue.replace(/\D/g, '');
                     if (cleanPhone.length !== 10) {
-                        showToast('❌ Please enter a valid 10-digit phone number (without country code)');
+                        showToast('❌ Please enter a valid 10-digit phone number');
                         return;
                     }
                 }
 
-                // ===== PINCODE VALIDATION =====
                 if (currentQ.id === 'pincode') {
                     const pincodeValue = answers.pincode_other || '';
                     if (pincodeValue && !/^[0-9]{5,6}$/.test(pincodeValue)) {
                         showToast('❌ Please enter a valid pincode (5-6 digits)');
                         return;
                     }
-                    // If empty, it's optional - allow skip
                     if (!pincodeValue) {
                         if (currentStep < questions.length - 1) {
                             currentStep++;
@@ -2701,17 +2450,15 @@
                     }
                 }
 
-                // ===== PORTFOLIO VALIDATION =====
                 if (currentQ.id === 'portfolio') {
                     const portfolioValue = answers.portfolio_other || '';
                     if (portfolioValue) {
                         const urlPattern = /^https?:\/\/[^\s/$.?#].[^\s]*\.(com|org|in|co\.in|vercel\.app|netlify\.app|github\.io|io|dev|app|co|net)(\/[^\s]*)?$/i;
                         if (!urlPattern.test(portfolioValue)) {
-                            showToast('❌ Please enter a valid URL (e.g., https://yourportfolio.com, https://yourname.vercel.app)');
+                            showToast('❌ Please enter a valid URL (e.g., https://yourportfolio.com)');
                             return;
                         }
                     }
-                    // If empty, it's optional - allow skip
                     if (!portfolioValue) {
                         if (currentStep < questions.length - 1) {
                             currentStep++;
@@ -2737,6 +2484,7 @@
                     generateCV();
                 }
             };
+
             window.goBack = function () {
                 if (currentStep > 0) {
                     currentStep--;
@@ -2762,7 +2510,7 @@
                 nextBtn.disabled = !hasAnswer;
             }
 
-            // ===== UPDATE TEXT (FIXED - SAVES PROPERLY) =====
+            // ===== UPDATE TEXT =====
             window.updateText = function (element, field) {
                 const value = element.textContent.trim();
                 cvData[field] = value;
@@ -2806,7 +2554,6 @@
             function buildCVData() {
                 const template = templates.find(t => t.id === selectedTemplate) || templates.find(t => t.id === answers.template) || templates[0];
 
-                // ===== PERSONAL INFO =====
                 const fullName = answers.fullName_other || 'Anika Kumar';
                 const email = answers.email_other || 'anika@example.com';
                 const phone = answers.phone_other || '+91 11 5555 5555';
@@ -2879,7 +2626,6 @@
                     phone: phone,
                     address: address,
                     pincode: pincode,
-                    linkedin: linkedin,
                     portfolio: portfolio,
                     role: role,
                     summary: summary,
@@ -2993,7 +2739,6 @@
                     wrapperOpen = `<div id="cv" style="background:${bgColor};color:${textColor};${borderStyle} font-family:'${font}',sans-serif;">`;
                 }
 
-                // Build contact info with all fields
                 let contactHTML = `
                     <span><i class="fas fa-map-pin" style="color:${primaryColor};"></i> ${data.address}</span>
                     <span style="margin:0 6px;">|</span>
@@ -3026,7 +2771,6 @@
             }
 
             // ===== EDITOR FUNCTIONS =====
-
             window.toggleEditor = function () {
                 const panel = document.getElementById('editorPanel');
                 const overlay = document.getElementById('editorOverlay');
@@ -3036,7 +2780,6 @@
             };
 
             // ===== PHOTO FUNCTIONS =====
-
             window.uploadPhoto = function (event) {
                 const file = event.target.files[0];
                 if (!file) return;
@@ -3084,7 +2827,7 @@
                 if (photo) {
                     photo.style.margin = position === 'center' ? '0 auto 12px' :
                         position === 'left' ? '0 auto 12px 0' :
-                            '0 0 12px auto';
+                        '0 0 12px auto';
                     photo.style.display = 'block';
                 }
                 applyCustomizations();
@@ -3115,29 +2858,24 @@
             };
 
             // ===== COLOR FUNCTIONS =====
-
             window.updateColors = function () {
                 customStyles.primaryColor = document.getElementById('primaryColor').value;
                 customStyles.secondaryColor = document.getElementById('secondaryColor').value;
                 customStyles.bgColor = document.getElementById('bgColor').value;
                 customStyles.textColor = document.getElementById('textColor').value;
 
-                // Update CSS variables
                 document.documentElement.style.setProperty('--primary', customStyles.primaryColor);
                 document.documentElement.style.setProperty('--primary-dark', customStyles.primaryColor);
 
-                // Update photo border color to match primary
                 document.getElementById('photoBorderColor').value = customStyles.primaryColor;
 
                 applyCustomizations();
             };
 
             // ===== TYPOGRAPHY FUNCTIONS =====
-
             window.updateFont = function () {
                 customStyles.font = document.getElementById('fontSelect').value;
                 customStyles.fontSize = document.getElementById('fontSize').value;
-                // Force refresh of CV preview
                 if (cvGenerated) {
                     const data = buildCVData();
                     renderCVPreview(data);
@@ -3177,7 +2915,6 @@
             };
 
             // ===== LAYOUT FUNCTIONS =====
-
             window.setLayout = function (layout) {
                 customStyles.layout = layout;
                 document.querySelectorAll('#layout1, #layout2, #layout3').forEach(btn => {
@@ -3200,7 +2937,6 @@
             };
 
             // ===== SECTION FUNCTIONS =====
-
             window.toggleSection = function (section) {
                 sectionVisibility[section] = !sectionVisibility[section];
                 const items = document.querySelectorAll('.section-item');
@@ -3217,7 +2953,6 @@
             };
 
             // ===== APPLY CUSTOMIZATIONS =====
-
             window.applyCustomizations = function () {
                 if (!cvGenerated) {
                     showToast('Please generate your CV first!');
@@ -3229,7 +2964,6 @@
             };
 
             // ===== RESET CUSTOMIZATIONS =====
-
             window.resetCustomizations = function () {
                 if (confirm('Reset all customizations to default?')) {
                     customStyles = {
@@ -3247,7 +2981,6 @@
                         alignment: 'left'
                     };
 
-                    // Reset all DOM elements
                     document.getElementById('primaryColor').value = '#1a73e8';
                     document.getElementById('secondaryColor').value = '#C9A84C';
                     document.getElementById('bgColor').value = '#FFFFFF';
@@ -3260,12 +2993,10 @@
                     document.getElementById('cornerRadius').value = '12';
                     document.getElementById('cornerRadiusLabel').textContent = '12px';
 
-                    // Reset buttons
                     document.querySelectorAll('.btn-group button').forEach(btn => btn.classList.remove('active'));
                     document.getElementById('layout1').classList.add('active');
                     document.getElementById('alignLeft').classList.add('active');
 
-                    // Reset CSS variables
                     document.documentElement.style.setProperty('--primary', '#1a73e8');
                     document.documentElement.style.setProperty('--primary-dark', '#1a73e8');
 
@@ -3366,7 +3097,6 @@
                         phone: '+91 11 5555 5555',
                         address: 'New Delhi, India 110001',
                         pincode: '110001',
-                        linkedin: '',
                         portfolio: '',
                         summary: '',
                         skills: '',
