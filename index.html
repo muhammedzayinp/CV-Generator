@@ -527,6 +527,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 60px 24px;
+            scroll-margin-top: 80px;
         }
 
         .features-title {
@@ -749,29 +750,29 @@
 <body>
 
     <!-- ===== BACKGROUND ===== -->
-    <div class="bg-gradient"></div>
+    <div class="bg-gradient" aria-hidden="true"></div>
 
     <!-- ===== HEADER ===== -->
-    <header class="header">
-        <a href="/" class="logo">
+    <header class="header" role="banner">
+        <a href="/" class="logo" aria-label="Ultimate CV Home">
             <h1>Ultimate CV</h1>
             <span class="badge">Pro</span>
         </a>
-        <div class="header-actions">
-            <a href="/app.html" class="btn-outline">
-                <i class="fas fa-file-alt"></i> My CV
+        <nav class="header-actions" aria-label="Main navigation">
+            <a href="/app.html" class="btn-outline" aria-label="View my CV">
+                <i class="fas fa-file-alt" aria-hidden="true"></i> My CV
             </a>
-            <a href="/app.html" class="btn-primary">
-                <i class="fas fa-plus"></i> New CV
+            <a href="/app.html" class="btn-primary" aria-label="Create a new CV">
+                <i class="fas fa-plus" aria-hidden="true"></i> New CV
             </a>
-        </div>
+        </nav>
     </header>
 
     <!-- ===== HERO SECTION ===== -->
     <section class="hero">
         <div class="hero-content">
-            <span class="hero-badge">
-                <i class="fas fa-sparkles"></i> AI-Powered
+            <span class="hero-badge" role="status">
+                <i class="fas fa-sparkles" aria-hidden="true"></i> AI-Powered
             </span>
             <h2>
                 The CV that<br>
@@ -783,26 +784,26 @@
             </p>
 
             <div class="hero-cta">
-                <a href="/app.html" class="btn-main">
-                    <i class="fas fa-rocket"></i> Create Your CV Now
+                <a href="/app.html" class="btn-main" aria-label="Start building your CV now">
+                    <i class="fas fa-rocket" aria-hidden="true"></i> Create Your CV Now
                 </a>
-                <a href="#features" class="btn-secondary">
-                    <i class="fas fa-eye"></i> View Templates
-                </a>
+                <button onclick="scrollToTemplates()" class="btn-secondary" aria-label="View templates">
+                    <i class="fas fa-eye" aria-hidden="true"></i> View Templates
+                </button>
             </div>
 
-            <div class="trust-badges">
-                <span class="badge-item">
-                    <i class="fas fa-check-circle"></i> 50+ Templates
+            <div class="trust-badges" role="list">
+                <span class="badge-item" role="listitem">
+                    <i class="fas fa-check-circle" aria-hidden="true"></i> 50+ Templates
                 </span>
-                <span class="badge-item">
-                    <i class="fas fa-chart-line"></i> ATS Optimized
+                <span class="badge-item" role="listitem">
+                    <i class="fas fa-chart-line" aria-hidden="true"></i> ATS Optimized
                 </span>
-                <span class="badge-item">
-                    <i class="fas fa-robot"></i> AI-Powered
+                <span class="badge-item" role="listitem">
+                    <i class="fas fa-robot" aria-hidden="true"></i> AI-Powered
                 </span>
-                <span class="badge-item">
-                    <i class="fas fa-gem"></i> 100% Free
+                <span class="badge-item" role="listitem">
+                    <i class="fas fa-gem" aria-hidden="true"></i> 100% Free
                 </span>
             </div>
 
@@ -810,11 +811,11 @@
             <div class="auth-section">
                 <span class="auth-label">Get started — no credit card required</span>
                 <div class="auth-options">
-                    <a href="#" class="btn-google" onclick="showToast('Google Sign-In coming soon!')">
-                        <i class="fab fa-google"></i> Sign in with Google
+                    <a href="#" class="btn-google" onclick="showToast('Google Sign-In coming soon!')" aria-label="Sign in with Google">
+                        <i class="fab fa-google" aria-hidden="true"></i> Sign in with Google
                     </a>
-                    <a href="/app.html" class="btn-guest">
-                        <i class="fas fa-user"></i> Continue as Guest
+                    <a href="/app.html" class="btn-guest" aria-label="Continue as guest">
+                        <i class="fas fa-user" aria-hidden="true"></i> Continue as Guest
                     </a>
                 </div>
             </div>
@@ -822,16 +823,16 @@
 
         <!-- Hero Image / Preview Card -->
         <div class="hero-image">
-            <div class="preview-card">
-                <div class="floating-badge top-right">
-                    <i class="fas fa-star" style="color:#f59e0b;"></i> 4.9/5
+            <div class="preview-card" role="img" aria-label="CV preview example">
+                <div class="floating-badge top-right" aria-hidden="true">
+                    <i class="fas fa-star" style="color:#f59e0b;" aria-hidden="true"></i> 4.9/5
                 </div>
-                <div class="floating-badge bottom-left">
-                    <i class="fas fa-check-circle" style="color:#10b981;"></i> ATS Score 85%
+                <div class="floating-badge bottom-left" aria-hidden="true">
+                    <i class="fas fa-check-circle" style="color:#10b981;" aria-hidden="true"></i> ATS Score 85%
                 </div>
 
                 <div class="card-header">
-                    <div class="dots">
+                    <div class="dots" aria-hidden="true">
                         <span></span><span></span><span></span>
                     </div>
                     <span class="badge-preview">🎯 Perfect Match</span>
@@ -840,7 +841,7 @@
                 <div class="cv-mini">
                     <div class="mini-name">Muhammed Zayin</div>
                     <div class="mini-title">Full Stack Developer</div>
-                    <div class="mini-divider"></div>
+                    <div class="mini-divider" aria-hidden="true"></div>
 
                     <div class="mini-section">
                         <span class="label">📝 Summary</span>
@@ -869,34 +870,34 @@
             Why choose <span>Ultimate CV</span>?
         </h2>
 
-        <div class="features-grid">
-            <div class="feature-card">
-                <span class="icon">🎨</span>
+        <div class="features-grid" role="list">
+            <div class="feature-card" role="listitem">
+                <span class="icon" aria-hidden="true">🎨</span>
                 <h4>50+ Templates</h4>
                 <p>Choose from 50+ professionally designed templates for every industry.</p>
             </div>
-            <div class="feature-card">
-                <span class="icon">📊</span>
+            <div class="feature-card" role="listitem">
+                <span class="icon" aria-hidden="true">📊</span>
                 <h4>ATS Optimized</h4>
                 <p>Get real-time ATS scoring and keyword suggestions to pass automated screening.</p>
             </div>
-            <div class="feature-card">
-                <span class="icon">🤖</span>
+            <div class="feature-card" role="listitem">
+                <span class="icon" aria-hidden="true">🤖</span>
                 <h4>AI-Powered</h4>
                 <p>Smart suggestions, grammar checking, and content improvements powered by AI.</p>
             </div>
-            <div class="feature-card">
-                <span class="icon">✏️</span>
+            <div class="feature-card" role="listitem">
+                <span class="icon" aria-hidden="true">✏️</span>
                 <h4>Full Customization</h4>
                 <p>Edit everything — colors, fonts, layout, sections, and more with drag & drop.</p>
             </div>
-            <div class="feature-card">
-                <span class="icon">📄</span>
+            <div class="feature-card" role="listitem">
+                <span class="icon" aria-hidden="true">📄</span>
                 <h4>Export Anywhere</h4>
                 <p>Download as PDF, DOCX, or share with a single link. Works everywhere.</p>
             </div>
-            <div class="feature-card">
-                <span class="icon">🔒</span>
+            <div class="feature-card" role="listitem">
+                <span class="icon" aria-hidden="true">🔒</span>
                 <h4>Privacy First</h4>
                 <p>Your data stays on your device. No servers, no tracking, no hidden costs.</p>
             </div>
@@ -904,18 +905,18 @@
     </section>
 
     <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-        <div class="footer-links">
+    <footer class="footer" role="contentinfo">
+        <nav class="footer-links" aria-label="Footer navigation">
             <a href="/app.html">CV Builder</a>
             <a href="#" onclick="showToast('Privacy policy coming soon!')">Privacy Policy</a>
             <a href="#" onclick="showToast('Contact: support@ultimatecv.com')">Contact</a>
             <a href="#" onclick="showToast('Built with ❤️ by Muhammed Zayin')">About</a>
-        </div>
+        </nav>
         <p>&copy; 2026 Ultimate CV · Built with ❤️ by Muhammed Zayin</p>
     </footer>
 
     <!-- ===== TOAST ===== -->
-    <div id="toast" style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--card-bg);color:var(--text);padding:12px 24px;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.15);font-size:0.9rem;font-weight:500;z-index:999;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);opacity:0;pointer-events:none;border-left:4px solid var(--primary);max-width:90%;">
+    <div id="toast" role="alert" aria-live="polite" style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--card-bg);color:var(--text);padding:12px 24px;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.15);font-size:0.9rem;font-weight:500;z-index:999;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);opacity:0;pointer-events:none;border-left:4px solid var(--primary);max-width:90%;">
         <span id="toastMessage">Message</span>
     </div>
 
@@ -934,24 +935,39 @@
             }, 3000);
         }
 
-        // ===== SMOOTH SCROLL =====
+        // ===== SCROLL TO TEMPLATES (FIXED) =====
+        function scrollToTemplates() {
+            const target = document.getElementById('features');
+            if (target) {
+                target.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            } else {
+                showToast('⚠️ Templates section not found');
+            }
+        }
+
+        // ===== SMOOTH SCROLL FOR OTHER ANCHOR LINKS =====
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Only handle if it's not the View Templates button (which we already fixed)
+                if (!this.classList.contains('btn-secondary')) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                    }
                 }
             });
         });
 
         console.log('🚀 Ultimate CV Landing Page loaded!');
         console.log('📝 Click "Create Your CV Now" to start building.');
-        // ===== YOUR SUPABASE CONFIG =====
-const supabaseUrl = 'https://wbquntfipzafjlsutvea.supabase.co';
-const supabaseKey = 'https://wbquntfipzafjlsutvea.supabase.co/rest/v1/cv_data'; // ← PASTE YOUR ACTUAL ANON KEY HERE
-
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        console.log('👁️ Click "View Templates" to scroll to templates section - FIXED!');
     </script>
 
 </body>
